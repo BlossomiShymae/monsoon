@@ -1,6 +1,7 @@
 import sys
 from PySide6 import QtWidgets, QtCore, QtGui
-from constant import Embedded, Monsoon
+from constant import Embedded
+from view import MainView
 
 def use_embedded_icon(app: QtWidgets.QApplication, b64_image):
   pixmap = QtGui.QPixmap()
@@ -11,10 +12,8 @@ def use_embedded_icon(app: QtWidgets.QApplication, b64_image):
 if __name__ == "__main__":
   app = QtWidgets.QApplication([])
 
-  window = QtWidgets.QMainWindow()
-  window.resize(Monsoon.WIDTH.value, Monsoon.HEIGHT.value)
-  window.setWindowTitle(Monsoon.TITLE.value)
-  window.show()
+  view = MainView()
+  view.show()
 
   use_embedded_icon(app, Embedded.icon())
 
