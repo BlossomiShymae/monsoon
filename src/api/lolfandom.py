@@ -9,6 +9,15 @@ class LolFandom():
     self.__balances_by_key = self.__process_cache()
 
   def __fetch_aram_balance_changes(self):
+    """Fetch and parse ARAM balance changes from the LoL Fandom ARAM article.
+
+    Raises:
+        Exception: Failed to get a valid request
+        Exception: Failed to find any changes from table
+
+    Returns:
+        ResultSet[tag]: Set of 'tr' tags that are parsed from HTML table.
+    """
     req = requests.get(f"{self.url}/wiki/ARAM")
 
     if req.status_code != 200:
