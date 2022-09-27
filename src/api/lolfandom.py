@@ -34,6 +34,7 @@ class LolFandom():
     for tr in self.__cache[1:]:
       champion_name = tr.contents[1].text.strip()
       balance.update({ champion_name: BalanceModel(
+        champion_name=tr.contents[1].text.strip(),
         damage_dealt=tr.contents[3].text.strip(),
         damage_received=tr.contents[5].text.strip(),
         other_changes=tr.contents[7].text.strip()
