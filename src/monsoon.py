@@ -30,9 +30,15 @@ def use_embedded_icon(app: QtWidgets.QApplication, b64_image):
   icon = QtGui.QIcon(pixmap)
   app.setWindowIcon(icon)
 
-async def data_callback(data):
-  print(json.dumps(data, indent=4, sort_keys=True))
+async def data_callback(data, view: MainView):
+  """Pass WebSocket event data to MainView instance
 
+  Args:
+      data (object): League client event data
+      view (MainView): MainView, main window
+  """
+  print(json.dumps(data, indent=4, sort_keys=True))
+  view.event_data_list.append(data)
 
 async def main():
   """Asynchronously run the main application.
@@ -41,12 +47,16 @@ async def main():
 
   global wllp
   wllp = await willump.start()
-  subscription = await wllp.subscribe("OnJsonApiEvent_lol-champ-select_v1_session", default_handler=data_callback)
 
   app = QtWidgets.QApplication([])
-
   view = MainView()
-  view.show()
+  subscription = await wllp.subscribe(
+    "OnJsonApiEvent_lol-champ-select_v1_session",
+     default_handler=lambda data: data_callback(data, view)
+  )
+
+  
+  # view.show()
 
   use_embedded_icon(app, Embedded.icon())
 

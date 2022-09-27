@@ -42,5 +42,5 @@ class LolFandom():
     return balance
 
   
-  def fetch_balance_by_champion_name(self, name):
+  def fetch_balance_by_champion_name(self, name) -> BalanceModel:
     return self.__balances_by_key.get(name)
