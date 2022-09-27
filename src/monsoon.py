@@ -8,24 +8,40 @@ import asyncio
 import json
 
 def milliseconds_from_fps(fps: int) -> int:
+  """Calculate milliseconds from the rate of frames per second.
+
+  Args:
+      fps (int): Frames per second
+
+  Returns:
+      int: Milliseconds
+  """
   return (1 / fps) * 1000
 
 def use_embedded_icon(app: QtWidgets.QApplication, b64_image):
+  """Use a Base64 encoded image as the application icon.
+
+  Args:
+      app (QtWidgets.QApplication): Qt Application
+      b64_image (str): Base64 encoded image string
+  """
   pixmap = QtGui.QPixmap()
   pixmap.loadFromData(QtCore.QByteArray.fromBase64(b64_image))
   icon = QtGui.QIcon(pixmap)
   app.setWindowIcon(icon)
 
 async def data_callback(data):
-  pass
+  print(json.dumps(data, indent=4, sort_keys=True))
 
 
 async def main():
+  """Asynchronously run the main application.
+  """
   logging.basicConfig(level=logging.DEBUG)
 
   global wllp
   wllp = await willump.start()
-  subscription = await wllp.subscribe("OnJsonApiEvent_lol-champ-select_v1_session", default_handler=print_data_callback)
+  subscription = await wllp.subscribe("OnJsonApiEvent_lol-champ-select_v1_session", default_handler=data_callback)
 
   app = QtWidgets.QApplication([])
 
