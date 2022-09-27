@@ -44,4 +44,13 @@ class LolFandom():
 
   
   def fetch_balance_by_champion_name(self, name) -> BalanceModel:
+    """Finds a BalanceModel instance for a champion name. May return None as 
+    not all champions have balance changes applied in ARAM.
+
+    Args:
+        name (str): Champion name to find with.
+
+    Returns:
+        BalanceModel: Represents the balance changes for a champion in ARAM.
+    """
     return self.__balances_by_key.get(name)
