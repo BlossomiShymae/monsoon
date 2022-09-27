@@ -25,7 +25,7 @@ class DataDragon():
     
     return req.json()
   
-  def fetchByChampionId(self, champion_id):
+  def fetch_by_champion_id(self, champion_id):
     data = self.champions["data"]
     for id in data:
       if (int(data[id]["key"]) == champion_id):
