@@ -5,6 +5,7 @@ class SystemTray(QtWidgets.QSystemTrayIcon):
   def __init__(self):
     super().__init__()
     self.setIcon(self.__b64_to_qicon(Embedded.icon()))
+    self.setToolTip(Monsoon.TITLE.value)
 
     # Set context menu
     menu = QtWidgets.QMenu()
