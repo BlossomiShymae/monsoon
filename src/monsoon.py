@@ -2,6 +2,7 @@ from PySide6 import QtWidgets, QtCore, QtGui
 from constant import Embedded, Stylesheet
 from controller import EventDataController
 from service import TimerService
+from template import SystemTray
 from view import MainView
 import logging
 import willump
@@ -58,8 +59,9 @@ async def main():
      default_handler=lambda data: data_callback(data, event_data_controller)
   )
 
-  
-  # view.show()
+  # Setup system tray icon
+  tray = SystemTray()
+  tray.show()
 
   use_embedded_icon(app, Embedded.icon())
 

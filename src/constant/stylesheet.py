@@ -7,6 +7,10 @@ class Stylesheet():
       color: rgb(255, 245, 255);
     }
 
+    QMenu { 
+      color: rgb(0, 0, 0);
+    }
+
     QLabel {
       font-weight: bold;
     }
