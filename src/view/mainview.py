@@ -56,7 +56,11 @@ class MainView(QtWidgets.QMainWindow):
     # Set window properties
     self.resize(Monsoon.WIDTH.value, Monsoon.HEIGHT.value)
     self.setWindowTitle(Monsoon.TITLE.value)
-    self.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
+    self.setWindowFlags(
+      QtCore.Qt.FramelessWindowHint 
+      | QtCore.Qt.WindowStaysOnTopHint
+      | QtCore.Qt.Tool
+      )
     self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
 
     self.setCentralWidget(self.hbox)
