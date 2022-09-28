@@ -1,8 +1,6 @@
 from PySide6 import QtWidgets, QtCore
-from api import DataDragon, LolFandom
-from constant import Monsoon, Stylesheet
+from constant import Monsoon
 from controller import EventDataController, LeagueClientController
-from model import SessionModel
 
 class MainView(QtWidgets.QMainWindow):
   def __init__(self, event_data_controller: EventDataController):
@@ -66,7 +64,6 @@ class MainView(QtWidgets.QMainWindow):
     hbox = QtWidgets.QGroupBox()
     hbox_layout = QtWidgets.QHBoxLayout()
     hbox.setLayout(hbox_layout)
-    hbox.setStyleSheet(Stylesheet.value())
 
     return (hbox, hbox_layout)
   
@@ -74,7 +71,6 @@ class MainView(QtWidgets.QMainWindow):
     vbox = QtWidgets.QGroupBox()
     vbox_layout = QtWidgets.QVBoxLayout()
     vbox.setLayout(vbox_layout)
-    vbox.setStyleSheet(Stylesheet.value())
 
     return (vbox, vbox_layout)
     

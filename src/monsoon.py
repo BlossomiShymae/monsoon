@@ -1,5 +1,5 @@
 from PySide6 import QtWidgets, QtCore, QtGui
-from constant import Embedded
+from constant import Embedded, Stylesheet
 from controller import EventDataController
 from service import TimerService
 from view import MainView
@@ -50,6 +50,7 @@ async def main():
   wllp = await willump.start()
 
   app = QtWidgets.QApplication([])
+  app.setStyleSheet(Stylesheet.value())
   event_data_controller = EventDataController()
   view = MainView(event_data_controller=event_data_controller)
   subscription = await wllp.subscribe(
