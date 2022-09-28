@@ -29,10 +29,10 @@ class BalanceModel:
     """
     label = self.__format_champion_name()
     if len(self.damage_dealt) > 0:
-      label += f"{self.__format_damage_dealt()}\n" 
+      label += f"\n{self.__format_damage_dealt()}" 
     if len(self.damage_received) > 0:
-      label += f"{self.__format_damage_received()}\n"
+      label += f"\n{self.__format_damage_received()}"
     if len(self.other_changes) > 0:
-      label += self.__format_other_changes()
+      label += f"\n{self.__format_other_changes()}"
     
     return label
