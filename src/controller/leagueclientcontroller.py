@@ -1,11 +1,11 @@
-from win32.win32gui import FindWindow, GetWindowRect
+from win32.win32gui import FindWindow, GetWindowRect, GetForegroundWindow, GetWindowText
 
 class LeagueClientController():
   def __init__(self):
-    pass
+    self.window_name = "League of Legends"
 
   def __find_window(self):
-    return FindWindow(None, "League of Legends")
+    return FindWindow(None, self.window_name)
 
   def is_active(self):
     """Test if the League client is active.
@@ -16,6 +16,9 @@ class LeagueClientController():
     if (self.__find_window()):
       return True
     return False
+  
+  def is_foreground(self):
+    return self.window_name == GetWindowText(GetForegroundWindow())
 
   def find(self):
     """Gets the window coordinates of the League client.
