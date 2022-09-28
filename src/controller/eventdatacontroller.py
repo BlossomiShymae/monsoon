@@ -37,7 +37,7 @@ class EventDataController():
           if balance == None:
             display = ""
           else:
-            display = f"Damage dealt: {balance.damage_dealt}\nDamage received: {balance.damage_received}"
+            display = balance.format()
           self.team_balances.append(display)
         self.is_active = True
       if event["eventType"] == "Delete":
