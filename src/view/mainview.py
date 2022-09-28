@@ -49,6 +49,7 @@ class MainView(QtWidgets.QMainWindow):
       self.team_others_vbox_layout.addWidget(row)
 
     # Set bench info columns
+    self.bench_info_hbox_layout.setContentsMargins(0, 0, 0, 0)
     for column in self.bench_info_columns:
       self.bench_info_hbox_layout.addWidget(column)
 
