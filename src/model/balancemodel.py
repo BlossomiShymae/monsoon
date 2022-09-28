@@ -43,10 +43,10 @@ class BalanceModel:
     Returns:
         str: Minimal formatted string representation of balance changes.
     """
-    label = self.__format_champion_name()
+    label = ""
     if len(self.damage_dealt) > 0:
-      label += f"\n{self.__format_damage_dealt()}"
+      label += f"{self.__format_damage_dealt()}\n"
     if len(self.damage_received) > 0:
-      label += f"\n{self.__format_damage_received()}"
+      label += f"{self.__format_damage_received()}\n"
     
     return label
