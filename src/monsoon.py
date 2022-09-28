@@ -32,11 +32,11 @@ def use_embedded_icon(app: QtWidgets.QApplication, b64_image):
   app.setWindowIcon(icon)
 
 async def data_callback(data, controller: EventDataController):
-  """Pass WebSocket event data to MainView instance
+  """Pass WebSocket event data to the event data controller.
 
   Args:
       data (object): League client event data
-      controller (EventDataController): Controller for event data
+      controller (EventDataController): Controller for WebSocket event data
   """
   print(json.dumps(data, indent=4, sort_keys=True))
   controller.events_queue.append(data)
