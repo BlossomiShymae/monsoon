@@ -36,3 +36,17 @@ class BalanceModel:
       label += f"\n{self.__format_other_changes()}"
     
     return label
+  
+  def format_minimal(self):
+    """Return a minimal formatted label string of balance changes for a champion.
+
+    Returns:
+        str: Minimal formatted string representation of balance changes.
+    """
+    label = self.__format_champion_name()
+    if len(self.damage_dealt) > 0:
+      label += f"\n{self.__format_damage_dealt()}"
+    if len(self.damage_received) > 0:
+      label += f"\n{self.__format_damage_received()}"
+    
+    return label
