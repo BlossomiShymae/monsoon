@@ -18,8 +18,10 @@ class MainView(QtWidgets.QMainWindow):
     (self.right_vbox, self.right_vbox_layout) = self.__create_vbox()
     (self.team_damages_vbox, self.team_damages_vbox_layout) = self.__create_vbox()
     (self.team_others_vbox, self.team_others_vbox_layout) = self.__create_vbox()
+    (self.bench_info_hbox, self.bench_info_hbox_layout) = self.__create_hbox()
     self.team_damages_rows = [QtWidgets.QLabel("") for i in range(5)]
-    self.team_others_rows = [QtWidgets.QLabel("ℹ️") for i in range(5)]
+    self.team_others_rows = [QtWidgets.QLabel("") for i in range(5)]
+    self.bench_info_columns = [QtWidgets.QLabel("") for i in range(10)]
 
     # Set horizontal box columns
     self.hbox_layout.addWidget(self.left_vbox, 35)
@@ -36,6 +38,10 @@ class MainView(QtWidgets.QMainWindow):
     self.left_sub_hbox_layout.addWidget(self.team_damages_vbox, 1)
     self.left_sub_hbox_layout.addWidget(self.team_others_vbox, 1)
 
+    # Set middle box rows
+    self.middle_vbox_layout.addWidget(self.bench_info_hbox, 1)
+    self.middle_vbox_layout.addWidget(QtWidgets.QLabel(""), 13)
+
     # Set team damages rows
     for row in self.team_damages_rows:
       self.team_damages_vbox_layout.addWidget(row)
@@ -43,6 +49,10 @@ class MainView(QtWidgets.QMainWindow):
     # Set team others rows
     for row in self.team_others_rows:
       self.team_others_vbox_layout.addWidget(row)
+
+    # Set bench info columns
+    for column in self.bench_info_columns:
+      self.bench_info_hbox_layout.addWidget(column)
 
     # Set window properties
     self.resize(Monsoon.WIDTH.value, Monsoon.HEIGHT.value)
@@ -79,9 +89,27 @@ class MainView(QtWidgets.QMainWindow):
 
       # Have our event data controller process any events in queue
       self.event_data_controller.process()
-      (is_active, team_balances) = self.event_data_controller.get_state()
+      (is_active, team_balances, team_other_balances, bench_balances) = self.event_data_controller.get_state()
       if is_active:
-        [self.team_damages_rows[i].setText(balance) for i, balance in enumerate(team_balances)]
+        # Process team balances
+        for i, balance in enumerate(team_balances):
+          self.team_damages_rows[i].setText(balance)
+          if len(balance) > 0:
+            self.team_others_rows[i].setText("ℹ️")
+            self.team_others_rows[i].setToolTip(team_other_balances[i])
+          else:
+            self.team_others_rows[i].setText("")
+            self.team_others_rows[i].setToolTip("")
+          
+
+        # Process bench balances
+        for i, balance in enumerate(bench_balances):
+          if len(balance) > 0:
+            self.bench_info_columns[i].setText("ℹ️")
+            self.bench_info_columns[i].setToolTip(balance)
+          else:
+            self.bench_info_columns[i].setText("")
+            self.bench_info_columns[i].setToolTip("")
         self.show()
       else:
         self.hide()

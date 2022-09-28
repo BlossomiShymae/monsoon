@@ -9,6 +9,8 @@ class EventDataController():
     self.events_queue = []
     self.is_active = False
     self.team_balances = []
+    self.team_other_balances = []
+    self.bench_balances = []
 
   def __is_in_champ_select(self, event_type: str) -> bool:
     return event_type == WebSocketEvent.CREATE or event_type == WebSocketEvent.UPDATE
@@ -37,15 +39,30 @@ class EventDataController():
 
         # Render balance changes into team rows
         self.team_balances.clear()
+        self.team_other_balances.clear()
         if len(session.team_champions) > 1:
           for champion_id in session.team_champions:
             champion = self.dd_api.fetch_by_champion_id(champion_id)
             balance = self.lf_api.fetch_balance_by_champion_name(champion["name"])
             if balance == None:
-              display = ""
+              team_display = ""
+              team_other_display = ""
             else:
-              display = balance.format_minimal()
-            self.team_balances.append(display)
+              team_display = balance.format_minimal()
+              team_other_display = balance.format()
+            self.team_balances.append(team_display)
+            self.team_other_balances.append(team_other_display)
+        # Render balances changes into bench columns
+        self.bench_balances.clear()
+        if len(session.bench_champions) > 1:
+          for champion_id in session.bench_champions:
+            champion = self.dd_api.fetch_by_champion_id(champion_id)
+            balance = self.lf_api.fetch_balance_by_champion_name(champion["name"])
+            if balance == None:
+              bench_display = ""
+            else:
+              bench_display = balance.format()
+            self.bench_balances.append(bench_display)
         self.is_active = True
       if event_type == WebSocketEvent.DELETE:
         print("HIDING")
@@ -56,9 +73,9 @@ class EventDataController():
     """Get the state summary of the controller in a tuple format.
 
     Returns:
-        tuple: (is_active, team_balances)
+        tuple: (is_active, team_balances, team_other_balances, bench_balances)
     """
-    return (self.is_active, self.team_balances)
+    return (self.is_active, self.team_balances, self.team_other_balances, self.bench_balances)
 
   def process(self):
     """Process all events in queue
