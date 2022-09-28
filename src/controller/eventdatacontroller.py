@@ -23,6 +23,7 @@ class EventDataController():
     # if "benchEnabled" in data and data["benchEnabled"]:
     if "eventType" in event:
       event_type = event["eventType"]
+      print(event_type)
       if self.__is_in_champ_select(event_type):
         print("SHOWING")
         
@@ -36,14 +37,15 @@ class EventDataController():
 
         # Render balance changes into team rows
         self.team_balances.clear()
-        for champion_id in session.team_champions:
-          champion = self.dd_api.fetch_by_champion_id(champion_id)
-          balance = self.lf_api.fetch_balance_by_champion_name(champion["name"])
-          if balance == None:
-            display = ""
-          else:
-            display = balance.format()
-          self.team_balances.append(display)
+        if len(session.team_champions) > 1:
+          for champion_id in session.team_champions:
+            champion = self.dd_api.fetch_by_champion_id(champion_id)
+            balance = self.lf_api.fetch_balance_by_champion_name(champion["name"])
+            if balance == None:
+              display = ""
+            else:
+              display = balance.format()
+            self.team_balances.append(display)
         self.is_active = True
       if event_type == WebSocketEvent.DELETE:
         print("HIDING")
