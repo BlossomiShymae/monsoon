@@ -1,5 +1,6 @@
 from PySide6 import QtWidgets, QtCore, QtGui
 from constant import Embedded
+from controller import EventDataController
 from service import TimerService
 from view import MainView
 import logging
@@ -30,15 +31,15 @@ def use_embedded_icon(app: QtWidgets.QApplication, b64_image):
   icon = QtGui.QIcon(pixmap)
   app.setWindowIcon(icon)
 
-async def data_callback(data, view: MainView):
+async def data_callback(data, controller: EventDataController):
   """Pass WebSocket event data to MainView instance
 
   Args:
       data (object): League client event data
-      view (MainView): MainView, main window
+      controller (EventDataController): Controller for event data
   """
   print(json.dumps(data, indent=4, sort_keys=True))
-  view.event_data_list.append(data)
+  controller.events_queue.append(data)
 
 async def main():
   """Asynchronously run the main application.
@@ -49,10 +50,11 @@ async def main():
   wllp = await willump.start()
 
   app = QtWidgets.QApplication([])
-  view = MainView()
+  event_data_controller = EventDataController()
+  view = MainView(event_data_controller=event_data_controller)
   subscription = await wllp.subscribe(
     "OnJsonApiEvent_lol-champ-select_v1_session",
-     default_handler=lambda data: data_callback(data, view)
+     default_handler=lambda data: data_callback(data, event_data_controller)
   )
 
   

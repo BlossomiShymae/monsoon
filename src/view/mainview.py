@@ -1,18 +1,16 @@
 from PySide6 import QtWidgets, QtCore
 from api import DataDragon, LolFandom
 from constant import Monsoon, Stylesheet
-from controller import LeagueClientController
+from controller import EventDataController, LeagueClientController
 from model import SessionModel
 
 class MainView(QtWidgets.QMainWindow):
-  def __init__(self):
+  def __init__(self, event_data_controller: EventDataController):
     super().__init__()
 
     # Set instance variables
     self.client_controller = LeagueClientController()
-    self.dd_api = DataDragon()
-    self.lf_api = LolFandom()
-    self.event_data_list = []
+    self.event_data_controller = event_data_controller
     (self.hbox, self.hbox_layout) = self.__create_hbox()
     (self.left_vbox, self.left_vbox_layout) = self.__create_vbox()
     (self.middle_vbox, self.middle_vbox_layout) = self.__create_vbox()
@@ -67,39 +65,14 @@ class MainView(QtWidgets.QMainWindow):
       height = bottom - top
       width = right - left
 
-      # Process the event data list passed from callback
-      for data in self.event_data_list:
-        # Trait of an ARAM selection if the bench is enabled.
-        # if "benchEnabled" in data and data["benchEnabled"]:
-          if "eventType" in data:
-            if data["eventType"] == "Update" or data["eventType"] == "Create":
-              print("SHOWING")
-              
-              # Get current session from League client
-              bench_champions = data["data"]["benchChampions"]
-              my_team = data["data"]["myTeam"]
-              session = SessionModel(
-                bench_champions=[champion["championId"] for champion in bench_champions],
-                team_champions=[champion["championId"] for champion in my_team]
-              )
-
-              # Render balance changes into team rows
-              for i, champion_id in enumerate(session.team_champions):
-                champion = self.dd_api.fetch_by_champion_id(champion_id)
-                balance = self.lf_api.fetch_balance_by_champion_name(champion["name"])
-                if balance == None:
-                  display = ""
-                else:
-                  display = f"Damage dealt: {balance.damage_dealt}\nDamage received: {balance.damage_received}"
-                self.team_rows[i].setText(display)
-              self.show()
-            if data["eventType"] == "Delete":
-              print("HIDING")
-              # Clear team rows
-              for row in self.team_rows:
-                row.setText("")
-              self.hide()
-      self.event_data_list.clear()
+      # Have our event data controller process any events in queue
+      self.event_data_controller.process()
+      (is_active, team_balances) = self.event_data_controller.get_state()
+      if is_active:
+        [self.team_rows[i].setText(balance) for i, balance in enumerate(team_balances)]
+        self.show()
+      else:
+        self.hide()
 
       # Adjust view based on League client (lock onto it)
       self.setGeometry(left, top, width, height)
