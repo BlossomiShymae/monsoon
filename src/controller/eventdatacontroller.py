@@ -1,4 +1,5 @@
 from api import DataDragon, LolFandom
+from constant import WebSocketEvent
 from model import SessionModel
 
 class EventDataController():
@@ -9,16 +10,20 @@ class EventDataController():
     self.is_active = False
     self.team_balances = []
 
+  def __is_in_champ_select(self, event_type: str) -> bool:
+    return event_type == WebSocketEvent.CREATE or event_type == WebSocketEvent.UPDATE
+
   def __process(self, event):
     """Process for any balance changes from event data.
 
     Args:
-        event_data (_type_): _description_
+        event (object): Event object.
     """
     # Trait of an ARAM selection if the bench is enabled.
     # if "benchEnabled" in data and data["benchEnabled"]:
     if "eventType" in event:
-      if event["eventType"] == "Update" or event["eventType"] == "Create":
+      event_type = event["eventType"]
+      if self.__is_in_champ_select(event_type):
         print("SHOWING")
         
         # Get current session from League client
@@ -40,7 +45,7 @@ class EventDataController():
             display = balance.format()
           self.team_balances.append(display)
         self.is_active = True
-      if event["eventType"] == "Delete":
+      if event_type == WebSocketEvent.DELETE:
         print("HIDING")
         self.team_balances.clear()
         self.is_active = False
