@@ -13,24 +13,36 @@ class MainView(QtWidgets.QMainWindow):
     self.event_data_controller = event_data_controller
     (self.hbox, self.hbox_layout) = self.__create_hbox()
     (self.left_vbox, self.left_vbox_layout) = self.__create_vbox()
+    (self.left_sub_hbox, self.left_sub_hbox_layout) = self.__create_hbox()
     (self.middle_vbox, self.middle_vbox_layout) = self.__create_vbox()
     (self.right_vbox, self.right_vbox_layout) = self.__create_vbox()
-    (self.team_vbox, self.team_vbox_layout) = self.__create_vbox()
-    self.team_rows = [QtWidgets.QLabel("") for i in range(5)]
+    (self.team_damages_vbox, self.team_damages_vbox_layout) = self.__create_vbox()
+    (self.team_others_vbox, self.team_others_vbox_layout) = self.__create_vbox()
+    self.team_damages_rows = [QtWidgets.QLabel("") for i in range(5)]
+    self.team_others_rows = [QtWidgets.QLabel("ℹ️") for i in range(5)]
 
     # Set horizontal box columns
     self.hbox_layout.addWidget(self.left_vbox, 35)
     self.hbox_layout.addWidget(self.middle_vbox, 58)
     self.hbox_layout.addWidget(self.right_vbox, 35)
 
-    # Set left box column (Team Champions)
+    # Set left box rows
     self.left_vbox_layout.addWidget(QtWidgets.QLabel(""), 2)
-    self.left_vbox_layout.addWidget(self.team_vbox, 8)
+    self.left_vbox_layout.addWidget(self.left_sub_hbox, 8)
     self.left_vbox_layout.addWidget(QtWidgets.QLabel(""), 3)
 
-    # Set team rows to left box column
-    for row in self.team_rows:
-      self.team_vbox_layout.addWidget(row)
+    # Set left sub horizontal box columns
+    self.left_sub_hbox_layout.addWidget(QtWidgets.QLabel(""), 1)
+    self.left_sub_hbox_layout.addWidget(self.team_damages_vbox, 1)
+    self.left_sub_hbox_layout.addWidget(self.team_others_vbox, 1)
+
+    # Set team damages rows
+    for row in self.team_damages_rows:
+      self.team_damages_vbox_layout.addWidget(row)
+    
+    # Set team others rows
+    for row in self.team_others_rows:
+      self.team_others_vbox_layout.addWidget(row)
 
     # Set window properties
     self.resize(Monsoon.WIDTH.value, Monsoon.HEIGHT.value)
@@ -69,7 +81,7 @@ class MainView(QtWidgets.QMainWindow):
       self.event_data_controller.process()
       (is_active, team_balances) = self.event_data_controller.get_state()
       if is_active:
-        [self.team_rows[i].setText(balance) for i, balance in enumerate(team_balances)]
+        [self.team_damages_rows[i].setText(balance) for i, balance in enumerate(team_balances)]
         self.show()
       else:
         self.hide()
