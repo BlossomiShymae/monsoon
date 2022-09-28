@@ -79,7 +79,6 @@ class MainView(QtWidgets.QMainWindow):
   def refresh(self):
     if (self.client_controller.is_active()):
       (left, top, right, bottom) = self.client_controller.find()
-
       # Calculate window dimensions
       height = bottom - top
       width = right - left
@@ -107,7 +106,11 @@ class MainView(QtWidgets.QMainWindow):
           else:
             self.bench_info_columns[i].setText("")
             self.bench_info_columns[i].setToolTip("")
-        self.show()
+        # Hide overlay if client window is not in foreground
+        if self.client_controller.is_foreground():
+          self.show()
+        else:
+          self.hide()
       else:
         self.hide()
 
