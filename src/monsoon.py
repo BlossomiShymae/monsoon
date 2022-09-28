@@ -4,10 +4,10 @@ from controller import EventDataController
 from service import TimerService
 from template import SystemTray
 from view import MainView
-import logging
-import willump
 import asyncio
 import json
+import logging
+import willump
 
 def milliseconds_from_fps(fps: int) -> int:
   """Calculate milliseconds from the rate of frames per second.
@@ -50,8 +50,12 @@ async def main():
   global wllp
   wllp = await willump.start()
 
+  # Setup application
   app = QtWidgets.QApplication([])
   app.setStyleSheet(Stylesheet.value())
+  use_embedded_icon(app, Embedded.icon())
+
+  # Setup and pass the event data controller
   event_data_controller = EventDataController()
   view = MainView(event_data_controller=event_data_controller)
   subscription = await wllp.subscribe(
@@ -62,8 +66,6 @@ async def main():
   # Setup system tray icon
   tray = SystemTray()
   tray.show()
-
-  use_embedded_icon(app, Embedded.icon())
 
   # Refresh view based on update tick rate (20fps)
   update_timer = TimerService(milliseconds_from_fps(20))
