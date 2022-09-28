@@ -1,13 +1,14 @@
 import sys
-from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6 import QtWidgets
 from constant import Embedded, Monsoon
+from util import b64_to_qicon
 
 class SystemTray(QtWidgets.QSystemTrayIcon):
   def __init__(self):
     super().__init__()
     
     # Setup system tray icon
-    self.setIcon(self.__b64_to_qicon(Embedded.icon()))
+    self.setIcon(b64_to_qicon(Embedded.icon()))
     self.setToolTip(Monsoon.TITLE.value)
 
     # Set context menu
@@ -23,13 +24,6 @@ class SystemTray(QtWidgets.QSystemTrayIcon):
     exit.triggered.connect(self.__exit_application)
 
     self.setContextMenu(menu)
-
-  def __b64_to_qicon(self, b64_image) -> QtGui.QIcon:
-    pixmap = QtGui.QPixmap()
-    pixmap.loadFromData(QtCore.QByteArray.fromBase64(b64_image))
-    icon = QtGui.QIcon(pixmap)
-
-    return icon
   
   def __exit_application(self):
     sys.exit()

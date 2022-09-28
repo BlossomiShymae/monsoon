@@ -1,8 +1,9 @@
-from PySide6 import QtWidgets, QtCore, QtGui
+from PySide6 import QtWidgets
 from constant import Embedded, Stylesheet
 from controller import EventDataController
 from service import TimerService
 from template import SystemTray
+from util import b64_to_qicon
 from view import MainView
 import asyncio
 import json
@@ -19,18 +20,6 @@ def milliseconds_from_fps(fps: int) -> int:
       int: Milliseconds
   """
   return (1 / fps) * 1000
-
-def use_embedded_icon(app: QtWidgets.QApplication, b64_image):
-  """Use a Base64 encoded image as the application icon.
-
-  Args:
-      app (QtWidgets.QApplication): Qt Application
-      b64_image (str): Base64 encoded image string
-  """
-  pixmap = QtGui.QPixmap()
-  pixmap.loadFromData(QtCore.QByteArray.fromBase64(b64_image))
-  icon = QtGui.QIcon(pixmap)
-  app.setWindowIcon(icon)
 
 async def data_callback(data, controller: EventDataController):
   """Pass WebSocket event data to the event data controller.
@@ -53,7 +42,7 @@ async def main():
   # Setup application
   app = QtWidgets.QApplication([])
   app.setStyleSheet(Stylesheet.value())
-  use_embedded_icon(app, Embedded.icon())
+  app.setWindowIcon(b64_to_qicon(Embedded.icon()))
 
   # Setup and pass the event data controller
   event_data_controller = EventDataController()
