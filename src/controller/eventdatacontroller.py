@@ -44,7 +44,7 @@ class EventDataController():
             if balance == None:
               display = ""
             else:
-              display = balance.format()
+              display = balance.format_minimal()
             self.team_balances.append(display)
         self.is_active = True
       if event_type == WebSocketEvent.DELETE:
