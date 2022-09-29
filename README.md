@@ -72,4 +72,4 @@ support the platform with the game anyways.
 I am very sorry... :c
 
 # License
-
+Monsoon is licensed under the terms of the GNU GPL v3 license.
