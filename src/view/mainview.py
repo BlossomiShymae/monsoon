@@ -69,6 +69,7 @@ class MainView(QtWidgets.QMainWindow):
       | QtCore.Qt.Tool
       )
     self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+    self.setAttribute(QtCore.Qt.WA_AlwaysShowToolTips)
 
     self.setCentralWidget(self.hbox)
 
