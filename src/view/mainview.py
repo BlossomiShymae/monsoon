@@ -1,8 +1,6 @@
 from PySide6 import QtWidgets, QtCore
 from constant import Monsoon
-from constant.embedded import Embedded
 from controller import EventDataController, LeagueClientController
-from util import b64_to_qpixmap
 import sys
 import traceback
 
@@ -20,11 +18,11 @@ class MainView(QtWidgets.QMainWindow):
     (self.right_vbox, self.right_vbox_layout) = self.__create_vbox()
     (self.team_damages_vbox, self.team_damages_vbox_layout) = self.__create_vbox()
     (self.team_others_vbox, self.team_others_vbox_layout) = self.__create_vbox()
-    (self.bench_info_hbox, self.bench_info_hbox_layout) = self.__create_hbox()
+    (self.bench_info_grid, self.bench_info_grid_layout) = self.__create_grid()
     (self.app_info_hbox, self.app_info_hbox_layout) = self.__create_hbox()
     self.team_damages_rows = [QtWidgets.QLabel("") for i in range(5)]
     self.team_others_rows = [QtWidgets.QLabel("") for i in range(5)]
-    self.bench_info_columns = [QtWidgets.QLabel("") for i in range(10)]
+    self.bench_info_cells = [QtWidgets.QLabel("") for i in range(10)]
 
     # Set horizontal box columns
     self.hbox_layout.addWidget(self.left_vbox, 35)
@@ -32,17 +30,17 @@ class MainView(QtWidgets.QMainWindow):
     self.hbox_layout.addWidget(self.right_vbox, 35)
 
     # Set left box rows
-    self.left_vbox_layout.addWidget(self.app_info_hbox, 3)
+    self.left_vbox_layout.addWidget(self.app_info_hbox, 2)
     self.left_vbox_layout.addWidget(self.left_sub_hbox, 8)
-    self.left_vbox_layout.addWidget(QtWidgets.QLabel(""), 2)
+    self.left_vbox_layout.addWidget(QtWidgets.QLabel(""), 3)
 
     # Set left sub horizontal box columns
-    self.left_sub_hbox_layout.addWidget(QtWidgets.QLabel(""), 1)
-    self.left_sub_hbox_layout.addWidget(self.team_damages_vbox, 1)
-    self.left_sub_hbox_layout.addWidget(self.team_others_vbox, 1)
+    self.left_sub_hbox_layout.addWidget(QtWidgets.QLabel(""), 3)
+    self.left_sub_hbox_layout.addWidget(self.team_damages_vbox, 2)
+    self.left_sub_hbox_layout.addWidget(self.team_others_vbox, 2)
 
     # Set middle box rows
-    self.middle_vbox_layout.addWidget(self.bench_info_hbox, 1)
+    self.middle_vbox_layout.addWidget(self.bench_info_grid, 1)
     self.middle_vbox_layout.addWidget(QtWidgets.QLabel(""), 13)
 
     # Set team damages rows
@@ -53,10 +51,11 @@ class MainView(QtWidgets.QMainWindow):
     for row in self.team_others_rows:
       self.team_others_vbox_layout.addWidget(row)
 
-    # Set bench info columns
-    self.bench_info_hbox_layout.setContentsMargins(0, 0, 0, 0)
-    for column in self.bench_info_columns:
-      self.bench_info_hbox_layout.addWidget(column)
+    # Set bench info cells
+    self.bench_info_grid.setContentsMargins(0, 0, 0, 0)
+    self.bench_info_grid_layout.setHorizontalSpacing(10)
+    for i, cell in enumerate(self.bench_info_cells):
+      self.bench_info_grid_layout.addWidget(cell, 1, i, QtCore.Qt.AlignRight | QtCore.Qt.AlignBottom)
 
     # Set application info columns
     self.app_info_hbox_layout.addWidget(QtWidgets.QLabel(Monsoon.TITLE.value, objectName="applicationName"))
@@ -80,6 +79,14 @@ class MainView(QtWidgets.QMainWindow):
     hbox.setLayout(hbox_layout)
 
     return (hbox, hbox_layout)
+  
+  def __create_grid(self):
+    grid = QtWidgets.QGroupBox()
+    grid_layout = QtWidgets.QGridLayout()
+    grid_layout.setSpacing(0)
+    grid.setLayout(grid_layout)
+
+    return (grid, grid_layout)
   
   def __create_vbox(self):
     vbox = QtWidgets.QGroupBox()
@@ -113,11 +120,11 @@ class MainView(QtWidgets.QMainWindow):
       # Process bench balances
       for i, balance in enumerate(bench_balances):
         if len(balance) > 0:  
-          self.bench_info_columns[i].setText("ℹ️")
-          self.bench_info_columns[i].setToolTip(balance)
+          self.bench_info_cells[i].setText("ℹ️")
+          self.bench_info_cells[i].setToolTip(balance)
         else:
-          self.bench_info_columns[i].setText("")
-          self.bench_info_columns[i].setToolTip("")
+          self.bench_info_cells[i].setText("")
+          self.bench_info_cells[i].setToolTip("")
       # Hide overlay if client window is not in foreground
       if self.client_controller.is_foreground() or self.client_controller.is_overlayed():
         self.show()
