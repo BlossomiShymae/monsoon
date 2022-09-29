@@ -15,6 +15,10 @@ class Stylesheet():
       font-weight: bold;
     }
 
+    QLabel#applicationName {
+      font-size: 18px;
+    }
+
     QLabel QToolTip {
       color: rgb(0, 0, 0);
       font-size: 14px;
