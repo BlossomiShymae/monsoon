@@ -1,6 +1,9 @@
 from PySide6 import QtWidgets, QtCore
 from constant import Monsoon
 from controller import EventDataController, LeagueClientController
+from util import b64_to_qpixmap
+import sys
+import traceback
 
 class MainView(QtWidgets.QMainWindow):
   def __init__(self, event_data_controller: EventDataController):
@@ -17,6 +20,7 @@ class MainView(QtWidgets.QMainWindow):
     (self.team_damages_vbox, self.team_damages_vbox_layout) = self.__create_vbox()
     (self.team_others_vbox, self.team_others_vbox_layout) = self.__create_vbox()
     (self.bench_info_hbox, self.bench_info_hbox_layout) = self.__create_hbox()
+    (self.app_info_hbox, self.app_info_hbox_layout) = self.__create_hbox()
     self.team_damages_rows = [QtWidgets.QLabel("") for i in range(5)]
     self.team_others_rows = [QtWidgets.QLabel("") for i in range(5)]
     self.bench_info_columns = [QtWidgets.QLabel("") for i in range(10)]
@@ -53,6 +57,9 @@ class MainView(QtWidgets.QMainWindow):
     for column in self.bench_info_columns:
       self.bench_info_hbox_layout.addWidget(column)
 
+    # Set application info columns
+    self.app_info_hbox_layout.addWidget(QtWidgets.QLabel(""))
+
     # Set window properties
     self.resize(Monsoon.WIDTH.value, Monsoon.HEIGHT.value)
     self.setWindowTitle(Monsoon.TITLE.value)
@@ -78,47 +85,58 @@ class MainView(QtWidgets.QMainWindow):
     vbox.setLayout(vbox_layout)
 
     return (vbox, vbox_layout)
+
+  def __refresh(self):
+    (left, top, right, bottom) = self.client_controller.find()
+    # Calculate window dimensions
+    height = bottom - top
+    width = right - left
+
+    # Have our event data controller process any events in queue
+    self.event_data_controller.process()
+    (is_active, team_balances, team_other_balances, bench_balances) = self.event_data_controller.get_state()
+    if is_active:
+      # Process team balances
+      for i, balance in enumerate(team_balances):
+        self.team_damages_rows[i].setText(balance)
+        if len(balance) > 0:
+          self.team_others_rows[i].setText("ℹ️")
+          self.team_others_rows[i].setToolTip(team_other_balances[i])
+        else:
+          self.team_others_rows[i].setText("")
+          self.team_others_rows[i].setToolTip("")
+        
+
+      # Process bench balances
+      for i, balance in enumerate(bench_balances):
+        if len(balance) > 0:
+          self.bench_info_columns[i].setText("ℹ️")
+          self.bench_info_columns[i].setToolTip(balance)
+        else:
+          self.bench_info_columns[i].setText("")
+          self.bench_info_columns[i].setToolTip("")
+      # Hide overlay if client window is not in foreground
+      if self.client_controller.is_foreground():
+        self.show()
+      else:
+        self.hide()
+    else:
+      self.hide()
+
+    # Adjust view based on League client (lock onto it)
+    self.setGeometry(left, top, width, height)
     
   @QtCore.Slot()
   def refresh(self):
     if (self.client_controller.is_active()):
-      (left, top, right, bottom) = self.client_controller.find()
-      # Calculate window dimensions
-      height = bottom - top
-      width = right - left
-
-      # Have our event data controller process any events in queue
-      self.event_data_controller.process()
-      (is_active, team_balances, team_other_balances, bench_balances) = self.event_data_controller.get_state()
-      if is_active:
-        # Process team balances
-        for i, balance in enumerate(team_balances):
-          self.team_damages_rows[i].setText(balance)
-          if len(balance) > 0:
-            self.team_others_rows[i].setText("ℹ️")
-            self.team_others_rows[i].setToolTip(team_other_balances[i])
-          else:
-            self.team_others_rows[i].setText("")
-            self.team_others_rows[i].setToolTip("")
-          
-
-        # Process bench balances
-        for i, balance in enumerate(bench_balances):
-          if len(balance) > 0:
-            self.bench_info_columns[i].setText("ℹ️")
-            self.bench_info_columns[i].setToolTip(balance)
-          else:
-            self.bench_info_columns[i].setText("")
-            self.bench_info_columns[i].setToolTip("")
-        # Hide overlay if client window is not in foreground
-        if self.client_controller.is_foreground():
-          self.show()
-        else:
-          self.hide()
-      else:
-        self.hide()
-
-      # Adjust view based on League client (lock onto it)
-      self.setGeometry(left, top, width, height)
-    pass
+      try:
+        self.__refresh()
+      except Exception:
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Critical)
+        msg.setText("Error")
+        msg.setInformativeText(traceback.format_exc())
+        msg.setWindowTitle(":bee_sad:")
+        msg.exec_()
+        sys.exit()
 
