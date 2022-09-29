@@ -102,7 +102,7 @@ class MainView(QtWidgets.QMainWindow):
       # Process team balances
       for i, balance in enumerate(team_balances):
         self.team_damages_rows[i].setText(balance)
-        if len(balance) > 0:
+        if len(balance) > 0 and "Other changes" in team_other_balances[i]:
           self.team_others_rows[i].setText("ℹ️")
           self.team_others_rows[i].setToolTip(team_other_balances[i])
         else:
@@ -112,14 +112,14 @@ class MainView(QtWidgets.QMainWindow):
 
       # Process bench balances
       for i, balance in enumerate(bench_balances):
-        if len(balance) > 0:
+        if len(balance) > 0:  
           self.bench_info_columns[i].setText("ℹ️")
           self.bench_info_columns[i].setToolTip(balance)
         else:
           self.bench_info_columns[i].setText("")
           self.bench_info_columns[i].setToolTip("")
       # Hide overlay if client window is not in foreground
-      if self.client_controller.is_foreground():
+      if self.client_controller.is_foreground() or self.client_controller.is_overlayed():
         self.show()
       else:
         self.hide()
