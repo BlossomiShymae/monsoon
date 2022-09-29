@@ -5,6 +5,7 @@ class Stylesheet():
     return """
     * {
       color: rgb(255, 245, 255);
+      border: 0;
     }
 
     QMenu { 

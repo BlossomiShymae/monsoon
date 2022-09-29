@@ -76,6 +76,7 @@ class MainView(QtWidgets.QMainWindow):
   def __create_hbox(self):
     hbox = QtWidgets.QGroupBox()
     hbox_layout = QtWidgets.QHBoxLayout()
+    hbox_layout.setSpacing(0)
     hbox.setLayout(hbox_layout)
 
     return (hbox, hbox_layout)
@@ -83,6 +84,7 @@ class MainView(QtWidgets.QMainWindow):
   def __create_vbox(self):
     vbox = QtWidgets.QGroupBox()
     vbox_layout = QtWidgets.QVBoxLayout()
+    vbox_layout.setSpacing(0)
     vbox.setLayout(vbox_layout)
 
     return (vbox, vbox_layout)
