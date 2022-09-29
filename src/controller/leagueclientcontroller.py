@@ -1,4 +1,5 @@
 from win32.win32gui import FindWindow, GetWindowRect, GetForegroundWindow, GetWindowText
+from constant import Monsoon
 
 class LeagueClientController():
   def __init__(self):
@@ -19,6 +20,9 @@ class LeagueClientController():
   
   def is_foreground(self):
     return self.window_name == GetWindowText(GetForegroundWindow())
+
+  def is_overlayed(self):
+    return Monsoon.TITLE.value == GetWindowText(GetForegroundWindow())
 
   def find(self):
     """Gets the window coordinates of the League client.
