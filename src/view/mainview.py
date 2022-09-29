@@ -32,9 +32,9 @@ class MainView(QtWidgets.QMainWindow):
     self.hbox_layout.addWidget(self.right_vbox, 35)
 
     # Set left box rows
-    self.left_vbox_layout.addWidget(self.app_info_hbox, 2)
+    self.left_vbox_layout.addWidget(self.app_info_hbox, 3)
     self.left_vbox_layout.addWidget(self.left_sub_hbox, 8)
-    self.left_vbox_layout.addWidget(QtWidgets.QLabel(""), 3)
+    self.left_vbox_layout.addWidget(QtWidgets.QLabel(""), 2)
 
     # Set left sub horizontal box columns
     self.left_sub_hbox_layout.addWidget(QtWidgets.QLabel(""), 1)
