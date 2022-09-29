@@ -24,6 +24,18 @@ When launching Monsoon, the application will idle while waiting for an ARAM
 champion select to be created. It is recommended to have Monsoon ready before 
 queuing up as the overlay may fail to appear otherwise.
 
+![overlay_example](https://user-images.githubusercontent.com/87099578/193137617-e282a2d2-f5e0-467b-b4e5-f1965aebb51a.png)
+
+Hovering over the information emoji ℹ️ will bring up a tooltip with detailed 
+balance changes of a champion if applicable. This emoji will only appear if 
+there are any ARAM balance changes to a champion and has other changes made 
+(healing/shielding modifiers, mechanic changes, etc). 
+
+This emoji will always appear for bench champions if they have any balance 
+changes.
+
+![system_tray](https://user-images.githubusercontent.com/87099578/193139154-faf804c7-ac20-4e51-94c1-692510c91d6d.png)
+
 Monsoon will also leave a icon in your system tray. This icon can be clicked to 
 reveal actions you can perform such as exiting Monsoon.
 
