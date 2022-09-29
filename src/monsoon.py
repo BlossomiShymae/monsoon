@@ -31,34 +31,44 @@ async def data_callback(data, controller: EventDataController):
   print(json.dumps(data, indent=4, sort_keys=True))
   controller.events_queue.append(data)
 
+async def setup_client_connection(controller: EventDataController):
+  """Setup the League client connection and subscribe to WebSocket.
+
+  Args:
+      controller (EventDataController): Event data controller
+  """
+  global wllp
+  wllp = await willump.start()
+  
+  subscription = await wllp.subscribe(
+    "OnJsonApiEvent_lol-champ-select_v1_session",
+     default_handler=lambda data: data_callback(data, controller)
+  )
+
 async def main():
   """Asynchronously run the main application.
   """
   logging.basicConfig(level=logging.DEBUG)
-
-  global wllp
-  wllp = await willump.start()
 
   # Setup application
   app = QtWidgets.QApplication([])
   app.setStyleSheet(Stylesheet.value())
   app.setWindowIcon(b64_to_qicon(Embedded.icon()))
 
-  # Setup and pass the event data controller
-  event_data_controller = EventDataController()
-  view = MainView(event_data_controller=event_data_controller)
-  subscription = await wllp.subscribe(
-    "OnJsonApiEvent_lol-champ-select_v1_session",
-     default_handler=lambda data: data_callback(data, event_data_controller)
-  )
-
   # Setup system tray icon
   tray = SystemTray()
   tray.show()
 
+  # Setup and pass the event data controller
+  event_data_controller = EventDataController()
+  view = MainView(event_data_controller=event_data_controller)
+
   # Refresh view based on update tick rate (20fps)
   update_timer = TimerService(milliseconds_from_fps(20))
   update_timer.add_slot(view.refresh)
+
+  # Add setup future to running loop to be awaited later
+  asyncio.ensure_future(setup_client_connection(event_data_controller))
 
   async def exec_loop():
     """ Execute the event loop that processes both Qt and asyncip loops.
