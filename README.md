@@ -16,7 +16,7 @@ surprises before the match begins! :3
 - [License](#license)
 
 # Download
-Interested in using Monsoon? [Get it here!]()
+Interested in using Monsoon? [Get it here!](https://github.com/MissUwuieTime/monsoon/releases) :hype_kitty:
 
 # Guide
 ## Getting started
