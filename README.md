@@ -36,6 +36,7 @@ or when the upstream may fail to update due to lack of upkeep.
 
 # FAQ
 **How was Monsoon made?**
+
 Monsoon was developed using Python in the span of four days. Notable packages 
 include:
 - PySide6 
@@ -46,6 +47,7 @@ include:
 - beautifulsoup4 (parsing balance changes).
 
 **Does Monsoon support Mac (or even Linux with Wine)?**
+
 Due to the nature of pywin32, Monsoon cannot currently support Mac or Linux. 
 I also do not own an Apple-based computer, so I cannot approve any changes made 
 to support said platforms. I am very sorry... :c
