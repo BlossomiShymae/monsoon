@@ -50,7 +50,12 @@ include:
 
 Due to the nature of pywin32, Monsoon cannot currently support Mac or Linux. 
 I also do not own an Apple-based computer, so I cannot approve any changes made 
-to support said platforms. I am very sorry... :c
+to support said platform.
+
+Support for Linux with Wine will also never be supported as Riot does not 
+support the platform with the game anyways.
+
+I am very sorry... :c
 
 # License
 
