@@ -13,6 +13,7 @@ surprises before the match begins! :3
   - [Getting started](#getting-started)
 - [Limitations](#limitations)
 - [FAQ](#faq)
+- [Legal](#legal)
 - [License](#license)
 
 # Download
@@ -70,6 +71,9 @@ Support for Linux with Wine will also never be supported as Riot does not
 support the platform with the game anyways.
 
 I am very sorry... :c
+
+# Legal
+Monsoon isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc.
 
 # License
 Monsoon is licensed under the terms of the GNU GPL v3 license.
