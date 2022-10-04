@@ -71,7 +71,7 @@ async def main():
   asyncio.ensure_future(setup_client_connection(event_data_controller))
 
   async def exec_loop():
-    """ Execute the event loop that processes both Qt and asyncip loops.
+    """ Execute the event loop that processes both Qt and asyncio loops.
     """
     while True:
       app.processEvents()
