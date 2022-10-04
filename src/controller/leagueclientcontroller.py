@@ -5,7 +5,7 @@ class LeagueClientController():
   def __init__(self):
     self.window_name = "League of Legends"
 
-  def __find_window(self):
+  def __find_window__(self):
     return FindWindow(None, self.window_name)
 
   def is_active(self):
@@ -14,7 +14,7 @@ class LeagueClientController():
     Returns:
         bool: Existance of League client.
     """ 
-    if (self.__find_window()):
+    if (self.__find_window__()):
       return True
     return False
   
@@ -30,7 +30,7 @@ class LeagueClientController():
     Returns:
         tuple: (left, top, right, bottom)
     """
-    window_handle = self.__find_window()
+    window_handle = self.__find_window__()
     window_rect = GetWindowRect(window_handle)
     
     return window_rect

@@ -25,12 +25,12 @@ class SystemTray(QtWidgets.QSystemTrayIcon):
     )
     menu.addSeparator()
     exit = menu.addAction("Exit")
-    exit.triggered.connect(self.__exit_application)
+    exit.triggered.connect(self.__exit_application__)
 
     self.setContextMenu(menu)
 
   def __open_web_link__(self, url: str):
     webbrowser.open(url)
   
-  def __exit_application(self):
+  def __exit_application__(self):
     sys.exit()

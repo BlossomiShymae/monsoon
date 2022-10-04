@@ -12,10 +12,10 @@ class EventDataController():
     self.team_other_balances = []
     self.bench_balances = []
 
-  def __is_in_champ_select(self, event_type: str) -> bool:
+  def __is_in_champ_select__(self, event_type: str) -> bool:
     return event_type == WebSocketEvent.CREATE or event_type == WebSocketEvent.UPDATE
 
-  def __process(self, event):
+  def __process__(self, event):
     """Process for any balance changes from event data.
 
     Args:
@@ -26,7 +26,7 @@ class EventDataController():
     if "eventType" in event:
       event_type = event["eventType"]
       print(event_type)
-      if self.__is_in_champ_select(event_type):
+      if self.__is_in_champ_select__(event_type):
         print("SHOWING")
         
         # Get current session from League client
@@ -81,7 +81,7 @@ class EventDataController():
     """Process all events in queue
     """
     for event in self.events_queue:
-      self.__process(event)
+      self.__process__(event)
     self.events_queue.clear()
 
 

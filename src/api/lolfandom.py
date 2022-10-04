@@ -5,10 +5,10 @@ from model import BalanceModel
 class LolFandom():
   def __init__(self):
     self.url = "https://leagueoflegends.fandom.com"
-    self.__cache = self.__fetch_aram_balance_changes()
-    self.__balances_by_key = self.__process_cache()
+    self.__cache = self.__fetch_aram_balance_changes__()
+    self.__balances_by_key = self.__process_cache__()
 
-  def __fetch_aram_balance_changes(self):
+  def __fetch_aram_balance_changes__(self):
     """Fetch and parse ARAM balance changes from the LoL Fandom ARAM article.
 
     Raises:
@@ -31,7 +31,7 @@ class LolFandom():
 
     return rows
   
-  def __process_cache(self):
+  def __process_cache__(self):
     """Process cache into a dictionary of balance changes using name as key.
     Below example indexed by raw response, NOT by the parsed response.
     tr[0] - Contains champion name

@@ -3,10 +3,10 @@ import requests
 class DataDragon():
   def __init__(self):
     self.url = "https://ddragon.leagueoflegends.com"
-    self.latest_version = self.__fetch_latest_version()
-    self.champions = self.__fetch_champions()
+    self.latest_version = self.__fetch_latest_version__()
+    self.champions = self.__fetch_champions__()
   
-  def __fetch_latest_version(self):
+  def __fetch_latest_version__(self):
     req = requests.get(f"{self.url}/api/versions.json")
 
     if req.status_code != 200:
@@ -17,7 +17,7 @@ class DataDragon():
 
     return req.json()[0]
 
-  def __fetch_champions(self):
+  def __fetch_champions__(self):
     req = requests.get(f"{self.url}/cdn/{self.latest_version}/data/en_US/champion.json")
 
     if req.status_code != 200:
