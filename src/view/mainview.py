@@ -1,6 +1,7 @@
 from PySide6 import QtWidgets, QtCore
 from constant import Monsoon
 from controller import EventDataController, LeagueClientController
+from util import LayoutFactory
 import sys
 import traceback
 
@@ -11,15 +12,15 @@ class MainView(QtWidgets.QMainWindow):
     # Set instance variables
     self.client_controller = LeagueClientController()
     self.event_data_controller = event_data_controller
-    (self.hbox, self.hbox_layout) = self.__create_hbox__()
-    (self.left_vbox, self.left_vbox_layout) = self.__create_vbox__()
-    (self.left_sub_hbox, self.left_sub_hbox_layout) = self.__create_hbox__()
-    (self.middle_vbox, self.middle_vbox_layout) = self.__create_vbox__()
-    (self.right_vbox, self.right_vbox_layout) = self.__create_vbox__()
-    (self.team_damages_vbox, self.team_damages_vbox_layout) = self.__create_vbox__()
-    (self.team_others_vbox, self.team_others_vbox_layout) = self.__create_vbox__()
-    (self.bench_info_grid, self.bench_info_grid_layout) = self.__create_grid__()
-    (self.app_info_hbox, self.app_info_hbox_layout) = self.__create_hbox__()
+    (self.hbox, self.hbox_layout) = LayoutFactory.create_horizontal()
+    (self.left_vbox, self.left_vbox_layout) = LayoutFactory.create_vertical()
+    (self.left_sub_hbox, self.left_sub_hbox_layout) = LayoutFactory.create_horizontal()
+    (self.middle_vbox, self.middle_vbox_layout) = LayoutFactory.create_vertical()
+    (self.right_vbox, self.right_vbox_layout) = LayoutFactory.create_vertical()
+    (self.team_damages_vbox, self.team_damages_vbox_layout) = LayoutFactory.create_vertical()
+    (self.team_others_vbox, self.team_others_vbox_layout) = LayoutFactory.create_vertical()
+    (self.bench_info_grid, self.bench_info_grid_layout) = LayoutFactory.create_grid()
+    (self.app_info_hbox, self.app_info_hbox_layout) = LayoutFactory.create_horizontal()
     self.team_damages_rows = [QtWidgets.QLabel("") for i in range(5)]
     self.team_others_rows = [QtWidgets.QLabel("") for i in range(5)]
     self.bench_info_cells = [QtWidgets.QLabel("") for i in range(10)]
@@ -72,30 +73,6 @@ class MainView(QtWidgets.QMainWindow):
     self.setAttribute(QtCore.Qt.WA_AlwaysShowToolTips)
 
     self.setCentralWidget(self.hbox)
-
-  def __create_hbox__(self):
-    hbox = QtWidgets.QGroupBox()
-    hbox_layout = QtWidgets.QHBoxLayout()
-    hbox_layout.setSpacing(0)
-    hbox.setLayout(hbox_layout)
-
-    return (hbox, hbox_layout)
-  
-  def __create_grid__(self):
-    grid = QtWidgets.QGroupBox()
-    grid_layout = QtWidgets.QGridLayout()
-    grid_layout.setSpacing(0)
-    grid.setLayout(grid_layout)
-
-    return (grid, grid_layout)
-  
-  def __create_vbox__(self):
-    vbox = QtWidgets.QGroupBox()
-    vbox_layout = QtWidgets.QVBoxLayout()
-    vbox_layout.setSpacing(0)
-    vbox.setLayout(vbox_layout)
-
-    return (vbox, vbox_layout)
 
   def __refresh__(self):
     (left, top, right, bottom) = self.client_controller.find()
