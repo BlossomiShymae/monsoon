@@ -1,4 +1,5 @@
 import sys
+import webbrowser
 from PySide6 import QtWidgets
 from constant import Embedded, Monsoon
 from util import b64_to_qicon
@@ -19,11 +20,17 @@ class SystemTray(QtWidgets.QSystemTrayIcon):
     title.setEnabled(False)
     menu.addSeparator()
     github = menu.addAction("GitHub")
+    github.triggered.connect(
+      lambda: self.__open_web_link__("https://github.com/MissUwuieTime/monsoon")
+    )
     menu.addSeparator()
     exit = menu.addAction("Exit")
     exit.triggered.connect(self.__exit_application)
 
     self.setContextMenu(menu)
+
+  def __open_web_link__(self, url: str):
+    webbrowser.open(url)
   
   def __exit_application(self):
     sys.exit()
