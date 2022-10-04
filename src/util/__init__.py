@@ -1,4 +1,5 @@
 from abc import abstractmethod
+from typing import Tuple
 from PySide6 import QtCore, QtGui, QtWidgets
 
 def b64_to_qicon(b64_image) -> QtGui.QIcon:
@@ -16,7 +17,7 @@ class LayoutFactory():
     """Represents a static factory that creates layout widgets in tuple formats.
     """
     @abstractmethod
-    def create_grid(self):
+    def create_grid() -> Tuple[QtWidgets.QGroupBox, QtWidgets.QGridLayout]:
         grid = QtWidgets.QGroupBox()
         grid_layout = QtWidgets.QGridLayout()
         grid_layout.setSpacing(0)
@@ -25,7 +26,7 @@ class LayoutFactory():
         return (grid, grid_layout)
 
     @abstractmethod
-    def create_horizontal():
+    def create_horizontal() -> Tuple[QtWidgets.QGroupBox, QtWidgets.QHBoxLayout]:
         hbox = QtWidgets.QGroupBox()
         hbox_layout = QtWidgets.QHBoxLayout()
         hbox_layout.setSpacing(0)
@@ -34,7 +35,7 @@ class LayoutFactory():
         return (hbox, hbox_layout)
     
     @abstractmethod
-    def create_vertical(self):
+    def create_vertical() -> Tuple[QtWidgets.QGroupBox, QtWidgets.QVBoxLayout]:
         vbox = QtWidgets.QGroupBox()
         vbox_layout = QtWidgets.QVBoxLayout()
         vbox_layout.setSpacing(0)
