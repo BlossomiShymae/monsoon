@@ -22,7 +22,13 @@ class EventDataController():
         event (object): Event object.
     """
     # Trait of an ARAM selection if the bench is enabled.
-    # if "benchEnabled" in data and data["benchEnabled"]:
+    if "benchEnabled" in event["data"] and event["data"]["benchEnabled"]:
+      pass
+    else:
+      self.team_balances.clear()
+      self.is_active = False
+      return
+
     if "eventType" in event:
       event_type = event["eventType"]
       print(event_type)
