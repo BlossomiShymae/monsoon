@@ -51,6 +51,10 @@ balance changes may not be 100% accurate. This may be the most noticable when
 new ARAM balance changes are announced (Wikia editors may update ahead of time) 
 or when the upstream may fail to update due to lack of upkeep.
 
+Using the overlay requires finding the application window for League. It 
+currently finds a window by the string of "League of Legends". The overlay may 
+fail if the window is named differently (internationalization).
+
 # FAQ
 **How was Monsoon made?**
 
