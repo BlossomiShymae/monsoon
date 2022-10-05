@@ -3,24 +3,24 @@ class Stylesheet():
   @staticmethod
   def value():
     return """
-    QMainWindow#mainView {
-      color: rgb(255, 245, 255);
+    QWidget#mainView QGroupBox {
       border: 0;
     }
 
-    QMainWindow#mainView QMenu { 
+    QWidget#mainView QMenu { 
       color: rgb(0, 0, 0);
     }
 
-    QMainWindow#mainView QLabel {
+    QWidget#mainView QLabel {
+      color: rgb(255, 245, 255);
       font-weight: bold;
     }
 
-    QMainWindow#mainView QLabel#applicationName {
+    QWidget#mainView QLabel#applicationName {
       font-size: 18px;
     }
 
-    QMainWindow#mainView QLabel QToolTip {
+    QWidget#mainView QLabel QToolTip {
       color: rgb(0, 0, 0);
       font-size: 14px;
       opacity: 224;
