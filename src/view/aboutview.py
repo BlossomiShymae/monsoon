@@ -8,7 +8,6 @@ class AboutView(QtWidgets.QMainWindow):
     # Set window properties
     self.setWindowTitle(f"About {Monsoon.TITLE.value}")
     self.setObjectName("aboutView")
-    self.setFixedSize(self.size())
 
     # Set instance variables
     (self.vbox, self.vbox_layout) = LayoutFactory.create_vertical()
@@ -40,6 +39,7 @@ class AboutView(QtWidgets.QMainWindow):
     self.vbox_layout.addWidget(self.ok_button)
 
     self.vbox_layout.setSpacing(2)
+    self.setFixedSize(self.vbox_layout.sizeHint())
     self.setCentralWidget(self.vbox)
 
   def __close_window__(self):
