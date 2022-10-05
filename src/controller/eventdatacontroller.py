@@ -46,6 +46,7 @@ class EventDataController():
         # Render balance changes into team rows
         self.team_balances.clear()
         self.team_other_balances.clear()
+        self.bench_balances.clear()
         if len(session.team_champions) > 1:
           for champion_id in session.team_champions:
             champion = self.dd_api.fetch_by_champion_id(champion_id)
@@ -73,6 +74,8 @@ class EventDataController():
       if event_type == WebSocketEvent.DELETE:
         print("HIDING")
         self.team_balances.clear()
+        self.team_other_balances.clear()
+        self.bench_balances.clear()
         self.is_active = False
 
   def get_state(self):
