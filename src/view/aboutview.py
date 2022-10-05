@@ -28,7 +28,7 @@ class AboutView(QtWidgets.QMainWindow):
     self.vbox_layout.addWidget(separator)
 
     # Set information labels
-    self.vbox_layout.addWidget(QtWidgets.QLabel(f"Version 1.0.0"))
+    self.vbox_layout.addWidget(QtWidgets.QLabel(f"Version {Monsoon.VERSION.value}"))
     self.vbox_layout.addWidget(QtWidgets.QLabel(f"Created by {Monsoon.AUTHOR.value}"))
     self.vbox_layout.addWidget(QtWidgets.QLabel("Made with love, bees, and kitties. <3"))
 
