@@ -1,7 +1,7 @@
 from PySide6 import QtWidgets, QtCore
-from constant import Monsoon
+from constant import Embedded, Monsoon
 from controller import EventDataController, LeagueClientController
-from util import LayoutFactory
+from util import LayoutFactory, b64_to_qpixmap
 import sys
 import traceback
 
@@ -60,7 +60,11 @@ class MainView(QtWidgets.QMainWindow):
       self.bench_info_grid_layout.addWidget(cell, 1, i, QtCore.Qt.AlignRight | QtCore.Qt.AlignBottom)
 
     # Set application info columns
-    self.app_info_hbox_layout.addWidget(QtWidgets.QLabel(Monsoon.TITLE.value, objectName="applicationName"))
+    wordmark_label = QtWidgets.QLabel("")
+    wordmark_label.setPixmap(b64_to_qpixmap(Embedded.wordmark()))
+    wordmark_label.setSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Ignored)
+    self.app_info_hbox_layout.addWidget(wordmark_label)
+    
 
     # Set window properties
     self.resize(Monsoon.WIDTH.value, Monsoon.HEIGHT.value)
