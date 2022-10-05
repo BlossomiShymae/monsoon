@@ -1,6 +1,7 @@
+from time import sleep
 from PySide6 import QtWidgets
 from constant import Embedded, Stylesheet
-from controller import EventDataController
+from controller import EventDataController, LeagueClientController
 from service import TimerService
 from template import SystemTray
 from util import b64_to_qicon
@@ -67,13 +68,33 @@ async def main():
   update_timer = TimerService(milliseconds_from_fps(20))
   update_timer.add_slot(view.refresh)
 
-  # Add setup future to running loop to be awaited later
-  asyncio.ensure_future(setup_client_connection(event_data_controller))
-
   async def exec_loop():
     """ Execute the event loop that processes both Qt and asyncio loops.
     """
+    global wllp
+    is_locked = False
+    is_wllp_running = False
+    client_controller = LeagueClientController()
     while True:
+      if not is_locked:
+        if not client_controller.is_active():
+          is_locked = True
+          if wllp != None:
+            is_wllp_running = False
+            asyncio.ensure_future(wllp.close())
+
+      
+      if client_controller.is_active():
+        is_locked = False
+        if not is_wllp_running:
+          is_wllp_running = True
+
+          # Sleep for five seconds to ensure that the WebSocket subscription works. u.u
+          # This should be handled by `willump` but we have to bandaid fix this for now. :c
+          # Submit a pull request if a better alternative is found.
+          sleep(5)
+          asyncio.ensure_future(setup_client_connection(event_data_controller))
+
       app.processEvents()
       await asyncio.sleep(0)
 
@@ -81,6 +102,8 @@ async def main():
 
 
 if __name__ == "__main__":
+  global wllp
+  wllp = None
   loop = asyncio.get_event_loop()
   try:
     loop.run_until_complete(main())
