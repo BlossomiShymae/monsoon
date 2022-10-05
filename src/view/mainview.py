@@ -8,6 +8,7 @@ import traceback
 class MainView(QtWidgets.QMainWindow):
   def __init__(self, event_data_controller: EventDataController):
     super().__init__()
+    self.setObjectName("mainView")
 
     # Set instance variables
     self.client_controller = LeagueClientController()
