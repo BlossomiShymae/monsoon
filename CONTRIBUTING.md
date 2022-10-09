@@ -29,5 +29,6 @@ For the deployment domain:
 ## Running monsoon from source
 - Clone / fork the repository. 
 - Setup local Python virtual environment `python -m venv env`.
+- Activate the virtual environment `source ./env/Scripts/activate`.
 - Install requirements `pip install -r ./requirements.txt`.
 - Run monsoon `python ./src/monsoon.py`.
