@@ -9,3 +9,7 @@ class TestController():
     def test_is_active_returns_true(self):
       controller = LeagueClientController()
       assert controller.is_active() == True
+    
+    def test_find_returns_any(self):
+      controller = LeagueClientController()
+      assert controller.find() != None
