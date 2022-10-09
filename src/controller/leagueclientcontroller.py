@@ -63,13 +63,15 @@ class LeagueClientController():
     )
     process_id = self.__parse_process_id__(data_string)
 
-    self.window = None
     # Have to use try...except due to EnumWindows weird behavior when ending 
     # enumeration early. u.u
+    is_window_found = False
     try:
       EnumWindows(self.__on_enumerate_window__, process_id)
     except Exception:
-      pass
+      is_window_found = True
+    if not is_window_found:
+      self.window = None
 
     return self.window
   
@@ -84,8 +86,15 @@ class LeagueClientController():
     Returns:
         bool: Existance of League client.
     """ 
+    # Window does not exist yet
+    if not self.window:
+      return False
+    # Window was used but has been exited
+    if not self.find():
+      return False
     if (self.__find_window__()):
       return True
+
     return False
   
   def is_foreground(self):
@@ -98,9 +107,13 @@ class LeagueClientController():
     """Gets the window coordinates of the League client.
 
     Returns:
-        tuple: (left, top, right, bottom)
+        tuple | None: (left, top, right, bottom) or None when window does not
+        exist.
     """
     window_handle = self.__find_window__()
-    window_rect = GetWindowRect(window_handle)
+    try:
+      window_rect = GetWindowRect(window_handle)
+    except Exception:
+      return None
     
     return window_rect
