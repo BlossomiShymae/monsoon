@@ -63,6 +63,7 @@ class MainView(QtWidgets.QMainWindow):
     wordmark_label = QtWidgets.QLabel("")
     wordmark_label.setPixmap(b64_to_qpixmap(Embedded.wordmark()))
     wordmark_label.setSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Ignored)
+    wordmark_label.setScaledContents(True)
     self.app_info_hbox_layout.addWidget(wordmark_label)
     
 
