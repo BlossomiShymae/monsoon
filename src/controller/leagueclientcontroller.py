@@ -44,7 +44,7 @@ class LeagueClientController():
   
 
   def __find_window__(self, is_memoized=True):
-    """Find the window associated with the League client process.
+    """Find the window associated with the League client process. Mutative.
 
     Args:
         is_memoized (bool, optional): Use cached instance. Defaults to True.
@@ -52,6 +52,9 @@ class LeagueClientController():
     Returns:
         object | None: Window handle or None when no window is found.
     """
+    if is_memoized and self.window != None:
+      return self.window
+
     data_string = str(subprocess.Popen(
       f"wmic PROCESS WHERE name='{self.process_name}' GET processid",
       shell=True,
@@ -59,9 +62,6 @@ class LeagueClientController():
       stderr=subprocess.PIPE).communicate()[0]
     )
     process_id = self.__parse_process_id__(data_string)
-
-    if is_memoized and self.window != None and process_id:
-      return self.window
 
     self.window = None
     # Have to use try...except due to EnumWindows weird behavior when ending 
@@ -72,6 +72,11 @@ class LeagueClientController():
       pass
 
     return self.window
+  
+  def process(self):
+    """Process the controller to find the window for the League client.
+    """
+    self.__find_window__(is_memoized=False)
 
   def is_active(self):
     """Test if the League client is active.
@@ -79,7 +84,7 @@ class LeagueClientController():
     Returns:
         bool: Existance of League client.
     """ 
-    if (self.__find_window__(is_memoized=False)):
+    if (self.__find_window__()):
       return True
     return False
   
