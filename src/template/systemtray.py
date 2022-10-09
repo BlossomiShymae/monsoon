@@ -1,4 +1,4 @@
-import sys
+import os
 import webbrowser
 from PySide6 import QtWidgets
 from constant import Embedded, Monsoon
@@ -40,4 +40,4 @@ class SystemTray(QtWidgets.QSystemTrayIcon):
     webbrowser.open(url)
   
   def __exit_application__(self):
-    sys.exit()
+    os._exit(0)
