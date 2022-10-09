@@ -51,15 +51,14 @@ balance changes may not be 100% accurate. This may be the most noticable when
 new ARAM balance changes are announced (Wikia editors may update ahead of time) 
 or when the upstream may fail to update due to lack of upkeep.
 
-Using the overlay requires finding the application window for League. It 
-currently finds a window by the string of "League of Legends". The overlay may 
-fail if the window is named differently (internationalization).
+Monsoon may not work with multiple League clients open at the same time 
+(sorries but that is just too weird for me to support). >.<
 
 # FAQ
 **How was Monsoon made?**
 
-Monsoon was developed using Python in the span of four days. Notable packages 
-include:
+Monsoon's codebase was developed using Python in the span of four days. 
+Notable packages include:
 - PySide6 
 (binding of the Qt GUI toolkit)
 - willump (League Client connector)
