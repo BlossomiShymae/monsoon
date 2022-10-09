@@ -1,15 +1,17 @@
-from time import sleep
-from PySide6 import QtWidgets
 from constant import Embedded, Stylesheet
 from controller import EventDataController, LeagueClientController
 from service import TimerService
 from template import SystemTray
 from util import b64_to_qicon
 from view import MainView
+
 import asyncio
 import json
 import logging
 import willump
+from PySide6 import QtWidgets
+from threading import Thread
+from time import sleep
 
 def milliseconds_from_fps(fps: int) -> int:
   """Calculate milliseconds from the rate of frames per second.
@@ -60,13 +62,29 @@ async def main():
   tray = SystemTray()
   tray.show()
 
-  # Setup and pass the event data controller
+  # Setup and pass controllers using dependency injection
   event_data_controller = EventDataController()
-  view = MainView(event_data_controller=event_data_controller)
+  client_controller = LeagueClientController()
+  view = MainView(
+    event_data_controller=event_data_controller,
+    client_controller=client_controller
+  )
 
   # Refresh view based on update tick rate (20fps)
   update_timer = TimerService(milliseconds_from_fps(20))
   update_timer.add_slot(view.refresh)
+
+  # Poll long-running operation for client process using another thread
+  def poll_task():
+    while True:
+      global stop_threads_flag
+      if stop_threads_flag == True:
+        break
+      sleep(5)
+      client_controller.process()
+
+  poll_process_thread = Thread(target=poll_task)
+  poll_process_thread.start()
 
   async def exec_loop():
     """ Execute the event loop that processes both Qt and asyncio loops.
@@ -74,7 +92,6 @@ async def main():
     global wllp
     is_locked = False
     is_wllp_running = False
-    client_controller = LeagueClientController()
     while True:
       if not is_locked:
         if not client_controller.is_active():
@@ -103,10 +120,14 @@ async def main():
 
 if __name__ == "__main__":
   global wllp
+  global stop_threads_flag
   wllp = None
+  stop_threads_flag = False
   loop = asyncio.get_event_loop()
+
   try:
     loop.run_until_complete(main())
   except KeyboardInterrupt:
+    stop_threads_flag = True
     loop.run_until_complete(wllp.close())
     print()
