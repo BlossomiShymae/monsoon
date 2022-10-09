@@ -6,6 +6,6 @@ from controller import LeagueClientController
 
 class TestController():
   class TestLeagueClientController():
-    def test_is_active_returns_true():
+    def test_is_active_returns_true(self):
       controller = LeagueClientController()
       assert controller.is_active() == True
