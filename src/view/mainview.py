@@ -6,13 +6,20 @@ import sys
 import traceback
 
 class MainView(QtWidgets.QMainWindow):
-  def __init__(self, event_data_controller: EventDataController):
+  def __init__(
+    self,
+    client_controller: LeagueClientController,
+    event_data_controller: EventDataController
+    ):
+
     super().__init__()
     self.setObjectName("mainView")
 
-    # Set instance variables
-    self.client_controller = LeagueClientController()
+    # Use dependency-injected controllers
+    self.client_controller = client_controller
     self.event_data_controller = event_data_controller
+
+    # Set instance variables
     (self.hbox, self.hbox_layout) = LayoutFactory.create_horizontal()
     (self.left_vbox, self.left_vbox_layout) = LayoutFactory.create_vertical()
     (self.left_sub_hbox, self.left_sub_hbox_layout) = LayoutFactory.create_horizontal()
