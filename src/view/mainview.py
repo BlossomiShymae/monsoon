@@ -87,7 +87,7 @@ class MainView(QtWidgets.QMainWindow):
 
     self.setCentralWidget(self.hbox)
 
-  def __refresh__(self):
+  def _refresh(self):
     (left, top, right, bottom) = self.client_controller.find()
     # Calculate window dimensions
     height = bottom - top
@@ -131,7 +131,7 @@ class MainView(QtWidgets.QMainWindow):
   def refresh(self):
     if (self.client_controller.is_active()):
       try:
-        self.__refresh__()
+        self._refresh()
       except Exception:
         msg = QtWidgets.QMessageBox()
         msg.setIcon(QtWidgets.QMessageBox.Critical)

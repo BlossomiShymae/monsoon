@@ -10,7 +10,7 @@ class LeagueClientController():
     self.process_name = "LeagueClientUx.exe"
     self.window = None
 
-  def __on_enumerate_window__(self, window_handle, process_id):
+  def _on_enumerate_window(self, window_handle, process_id):
     """Callback for EnumWindows to get League client window.
 
     Args:
@@ -27,7 +27,7 @@ class LeagueClientController():
       # http://timgolden.me.uk/pywin32-docs/win32gui__EnumWindows_meth.html
       return False
   
-  def __parse_process_id__(self, data: str):
+  def _parse_process_id(self, data: str):
     """Parse process id from a data string using regular expression.
 
     Args:
@@ -43,7 +43,7 @@ class LeagueClientController():
     return int(match.group())
   
 
-  def __find_window__(self, is_memoized=True):
+  def _find_window(self, is_memoized=True):
     """Find the window associated with the League client process. Mutative.
 
     Args:
@@ -61,13 +61,13 @@ class LeagueClientController():
       stdout=subprocess.PIPE,
       stderr=subprocess.PIPE).communicate()[0]
     )
-    process_id = self.__parse_process_id__(data_string)
+    process_id = self._parse_process_id(data_string)
 
     # Have to use try...except due to EnumWindows weird behavior when ending 
     # enumeration early. u.u
     is_window_found = False
     try:
-      EnumWindows(self.__on_enumerate_window__, process_id)
+      EnumWindows(self._on_enumerate_window, process_id)
     except Exception:
       is_window_found = True
     if not is_window_found:
@@ -78,7 +78,7 @@ class LeagueClientController():
   def process(self):
     """Process the controller to find the window for the League client.
     """
-    self.__find_window__(is_memoized=False)
+    self._find_window(is_memoized=False)
 
   def is_active(self):
     """Test if the League client is active.
@@ -92,7 +92,7 @@ class LeagueClientController():
     # Window was used but has been exited
     if not self.find():
       return False
-    if (self.__find_window__()):
+    if (self._find_window()):
       return True
 
     return False
@@ -110,7 +110,7 @@ class LeagueClientController():
         tuple | None: (left, top, right, bottom) or None when window does not
         exist.
     """
-    window_handle = self.__find_window__()
+    window_handle = self._find_window()
     try:
       window_rect = GetWindowRect(window_handle)
     except Exception:

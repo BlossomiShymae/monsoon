@@ -21,10 +21,10 @@ class EventDataController():
     self.team_other_balances.clear()
     self.bench_balances.clear()
 
-  def __is_in_champ_select__(self, event_type: str) -> bool:
+  def _is_in_champ_select(self, event_type: str) -> bool:
     return event_type == WebSocketEvent.CREATE or event_type == WebSocketEvent.UPDATE
 
-  def __process__(self, event):
+  def _process(self, event):
     """Process for any balance changes from event data.
 
     Args:
@@ -41,7 +41,7 @@ class EventDataController():
     if "eventType" in event:
       event_type = event["eventType"]
       print(event_type)
-      if self.__is_in_champ_select__(event_type):
+      if self._is_in_champ_select(event_type):
         logging.debug("Showing the overlay! <3")
         self._clear_balances()
         
@@ -94,7 +94,7 @@ class EventDataController():
     """Process all events in queue.
     """
     for event in self.events_queue:
-      self.__process__(event)
+      self._process(event)
     self.events_queue.clear()
 
 

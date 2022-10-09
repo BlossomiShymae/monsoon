@@ -9,16 +9,16 @@ class BalanceModel:
   damage_received: str
   other_changes: str
 
-  def __format_champion_name__(self):
+  def _format_champion_name(self):
     return f"{self.champion_name}"
 
-  def __format_damage_dealt__(self):
+  def _format_damage_dealt(self):
     return f"Damage dealt: {self.damage_dealt}"
   
-  def __format_damage_received__(self):
+  def _format_damage_received(self):
     return f"Damage received: {self.damage_received}"
   
-  def __format_other_changes__(self):
+  def _format_other_changes(self):
     return f"Other changes: {self.other_changes}"
 
   def format(self):
@@ -27,13 +27,13 @@ class BalanceModel:
     Returns:
         str: Formatted string representation of balance changes.
     """
-    label = self.__format_champion_name__()
+    label = self._format_champion_name()
     if len(self.damage_dealt) > 0:
-      label += f"\n{self.__format_damage_dealt__()}" 
+      label += f"\n{self._format_damage_dealt()}" 
     if len(self.damage_received) > 0:
-      label += f"\n{self.__format_damage_received__()}"
+      label += f"\n{self._format_damage_received()}"
     if len(self.other_changes) > 0:
-      label += f"\n{self.__format_other_changes__()}"
+      label += f"\n{self._format_other_changes()}"
     
     return label
   
@@ -45,8 +45,8 @@ class BalanceModel:
     """
     label = ""
     if len(self.damage_dealt) > 0:
-      label += f"{self.__format_damage_dealt__()}\n"
+      label += f"{self._format_damage_dealt()}\n"
     if len(self.damage_received) > 0:
-      label += f"{self.__format_damage_received__()}\n"
+      label += f"{self._format_damage_received()}\n"
     
     return label

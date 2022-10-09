@@ -23,21 +23,21 @@ class SystemTray(QtWidgets.QSystemTrayIcon):
     menu.addSeparator()
     github = menu.addAction("GitHub")
     github.triggered.connect(
-      lambda: self.__open_web_link__("https://github.com/MissUwuieTime/monsoon")
+      lambda: self._open_web_link("https://github.com/MissUwuieTime/monsoon")
     )
     about = menu.addAction("About")
-    about.triggered.connect(self.__open_about__)
+    about.triggered.connect(self._open_about)
     menu.addSeparator()
     exit = menu.addAction("Exit")
-    exit.triggered.connect(self.__exit_application__)
+    exit.triggered.connect(self._exit_application)
 
     self.setContextMenu(menu)
   
-  def __open_about__(self):
+  def _open_about(self):
     self.about_dialog.show()
 
-  def __open_web_link__(self, url: str):
+  def _open_web_link(self, url: str):
     webbrowser.open(url)
   
-  def __exit_application__(self):
+  def _exit_application(self):
     os._exit(0)
