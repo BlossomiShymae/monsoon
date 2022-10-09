@@ -2,7 +2,7 @@ from PySide6 import QtWidgets, QtCore
 from constant import Embedded, Monsoon
 from controller import EventDataController, LeagueClientController
 from util import LayoutFactory, b64_to_qpixmap
-import sys
+import os
 import traceback
 
 class MainView(QtWidgets.QMainWindow):
@@ -138,5 +138,5 @@ class MainView(QtWidgets.QMainWindow):
         msg.setInformativeText(traceback.format_exc())
         msg.setWindowTitle(":bee_sad:")
         msg.exec_()
-        sys.exit()
+        os._exit(-1)
 
