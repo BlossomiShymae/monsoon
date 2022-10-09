@@ -1,4 +1,5 @@
 #! /bin/bash
+# A shell script to build the main application into executables
 
 version="0.0.0"
 exe_name="monsoon"
