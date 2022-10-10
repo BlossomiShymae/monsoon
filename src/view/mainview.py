@@ -29,9 +29,9 @@ class MainView(QtWidgets.QMainWindow):
     (self.team_others_vbox, self.team_others_vbox_layout) = LayoutFactory.create_vertical()
     (self.bench_info_grid, self.bench_info_grid_layout) = LayoutFactory.create_grid()
     (self.app_info_hbox, self.app_info_hbox_layout) = LayoutFactory.create_horizontal()
-    self.team_damages_rows = [QtWidgets.QLabel("") for i in range(5)]
-    self.team_others_rows = [QtWidgets.QLabel("") for i in range(5)]
-    self.bench_info_cells = [QtWidgets.QLabel("") for i in range(10)]
+    self.team_damages_rows = [LayoutFactory.create_label_with_text_shadow() for i in range(5)]
+    self.team_others_rows = [LayoutFactory.create_label_with_text_shadow() for i in range(5)]
+    self.bench_info_cells = [LayoutFactory.create_label_with_text_shadow() for i in range(10)]
 
     # Set horizontal box columns
     self.hbox_layout.addWidget(self.left_vbox, 35)
