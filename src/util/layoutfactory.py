@@ -1,5 +1,5 @@
 from typing import Tuple
-from PySide6 import QtWidgets, QtGui, QtCore
+from PySide6 import QtWidgets, QtGui
 
 class LayoutFactory():
     """Represents a static factory that creates layout widgets in tuple formats.
@@ -32,12 +32,12 @@ class LayoutFactory():
       return (vbox, vbox_layout)
 
     @staticmethod
-    def create_label_with_text_shadow(text="", color=(255, 255, 255)) -> QtWidgets.QLabel:
+    def create_label_with_text_shadow(text="", color="black", blur_radius=4.0, offset=(1, 1)) -> QtWidgets.QLabel:
       label = QtWidgets.QLabel(text)
       effect = QtWidgets.QGraphicsDropShadowEffect(label)
-      effect.setBlurRadius(0)
+      effect.setBlurRadius(blur_radius)
       effect.setColor(QtGui.QColor(color))
-      effect.setOffset(1, 1)
+      effect.setOffset(*offset)
       label.setGraphicsEffect(effect)
 
       return label
