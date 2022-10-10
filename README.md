@@ -25,8 +25,7 @@ When launching Monsoon, the application will idle while waiting for an ARAM
 champion select to be created. It is recommended to have Monsoon ready before 
 queuing up as the overlay may fail to appear otherwise.
 
-![overlay_example](https://user-images.githubusercontent.com/87099578/194152134-4a26605e-f146-491a-8fa0-2ad38b280211.png)
-
+![overlay_example](https://user-images.githubusercontent.com/87099578/194787986-54506673-fda7-4ee3-a0a0-9c8b72dcd4f9.png)
 
 Hovering over the information emoji ℹ️ will bring up a tooltip with detailed 
 balance changes of a champion if applicable. This emoji will only appear if 
