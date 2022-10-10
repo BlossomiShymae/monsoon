@@ -2,17 +2,24 @@ from PySide6 import QtWidgets, QtCore
 from constant import Embedded, Monsoon
 from controller import EventDataController, LeagueClientController
 from util import LayoutFactory, b64_to_qpixmap
-import sys
+import os
 import traceback
 
 class MainView(QtWidgets.QMainWindow):
-  def __init__(self, event_data_controller: EventDataController):
+  def __init__(
+    self,
+    client_controller: LeagueClientController,
+    event_data_controller: EventDataController
+    ):
+
     super().__init__()
     self.setObjectName("mainView")
 
-    # Set instance variables
-    self.client_controller = LeagueClientController()
+    # Use dependency-injected controllers
+    self.client_controller = client_controller
     self.event_data_controller = event_data_controller
+
+    # Set instance variables
     (self.hbox, self.hbox_layout) = LayoutFactory.create_horizontal()
     (self.left_vbox, self.left_vbox_layout) = LayoutFactory.create_vertical()
     (self.left_sub_hbox, self.left_sub_hbox_layout) = LayoutFactory.create_horizontal()
@@ -22,9 +29,9 @@ class MainView(QtWidgets.QMainWindow):
     (self.team_others_vbox, self.team_others_vbox_layout) = LayoutFactory.create_vertical()
     (self.bench_info_grid, self.bench_info_grid_layout) = LayoutFactory.create_grid()
     (self.app_info_hbox, self.app_info_hbox_layout) = LayoutFactory.create_horizontal()
-    self.team_damages_rows = [QtWidgets.QLabel("") for i in range(5)]
-    self.team_others_rows = [QtWidgets.QLabel("") for i in range(5)]
-    self.bench_info_cells = [QtWidgets.QLabel("") for i in range(10)]
+    self.team_damages_rows = [LayoutFactory.create_label_with_text_shadow() for i in range(5)]
+    self.team_others_rows = [LayoutFactory.create_label_with_text_shadow() for i in range(5)]
+    self.bench_info_cells = [LayoutFactory.create_label_with_text_shadow() for i in range(10)]
 
     # Set horizontal box columns
     self.hbox_layout.addWidget(self.left_vbox, 35)
@@ -63,6 +70,7 @@ class MainView(QtWidgets.QMainWindow):
     wordmark_label = QtWidgets.QLabel("")
     wordmark_label.setPixmap(b64_to_qpixmap(Embedded.wordmark()))
     wordmark_label.setSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Ignored)
+    wordmark_label.setScaledContents(True)
     self.app_info_hbox_layout.addWidget(wordmark_label)
     
 
@@ -79,7 +87,7 @@ class MainView(QtWidgets.QMainWindow):
 
     self.setCentralWidget(self.hbox)
 
-  def __refresh__(self):
+  def _refresh(self):
     (left, top, right, bottom) = self.client_controller.find()
     # Calculate window dimensions
     height = bottom - top
@@ -123,7 +131,7 @@ class MainView(QtWidgets.QMainWindow):
   def refresh(self):
     if (self.client_controller.is_active()):
       try:
-        self.__refresh__()
+        self._refresh()
       except Exception:
         msg = QtWidgets.QMessageBox()
         msg.setIcon(QtWidgets.QMessageBox.Critical)
@@ -131,5 +139,5 @@ class MainView(QtWidgets.QMainWindow):
         msg.setInformativeText(traceback.format_exc())
         msg.setWindowTitle(":bee_sad:")
         msg.exec_()
-        sys.exit()
+        os._exit(-1)
 

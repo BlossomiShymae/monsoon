@@ -2,6 +2,8 @@ from api import DataDragon, LolFandom
 from constant import WebSocketEvent
 from model import SessionModel
 
+import logging
+
 class EventDataController():
   def __init__(self):
     self.dd_api = DataDragon()
@@ -12,10 +14,17 @@ class EventDataController():
     self.team_other_balances = []
     self.bench_balances = []
 
-  def __is_in_champ_select__(self, event_type: str) -> bool:
+  def _clear_balances(self):
+    """Clear balance queues.
+    """
+    self.team_balances.clear()
+    self.team_other_balances.clear()
+    self.bench_balances.clear()
+
+  def _is_in_champ_select(self, event_type: str) -> bool:
     return event_type == WebSocketEvent.CREATE or event_type == WebSocketEvent.UPDATE
 
-  def __process__(self, event):
+  def _process(self, event):
     """Process for any balance changes from event data.
 
     Args:
@@ -25,15 +34,16 @@ class EventDataController():
     if "benchEnabled" in event["data"] and event["data"]["benchEnabled"]:
       pass
     else:
-      self.team_balances.clear()
+      self._clear_balances()
       self.is_active = False
       return
 
     if "eventType" in event:
       event_type = event["eventType"]
       print(event_type)
-      if self.__is_in_champ_select__(event_type):
-        print("SHOWING")
+      if self._is_in_champ_select(event_type):
+        logging.debug("Showing the overlay! <3")
+        self._clear_balances()
         
         # Get current session from League client
         bench_champions = event["data"]["benchChampions"]
@@ -44,9 +54,6 @@ class EventDataController():
         )
 
         # Render balance changes into team rows
-        self.team_balances.clear()
-        self.team_other_balances.clear()
-        self.bench_balances.clear()
         if len(session.team_champions) > 1:
           for champion_id in session.team_champions:
             champion = self.dd_api.fetch_by_champion_id(champion_id)
@@ -60,7 +67,6 @@ class EventDataController():
             self.team_balances.append(team_display)
             self.team_other_balances.append(team_other_display)
         # Render balances changes into bench columns
-        self.bench_balances.clear()
         if len(session.bench_champions) > 1:
           for champion_id in session.bench_champions:
             champion = self.dd_api.fetch_by_champion_id(champion_id)
@@ -72,10 +78,8 @@ class EventDataController():
             self.bench_balances.append(bench_display)
         self.is_active = True
       if event_type == WebSocketEvent.DELETE:
-        print("HIDING")
-        self.team_balances.clear()
-        self.team_other_balances.clear()
-        self.bench_balances.clear()
+        logging.debug("Hiding the overlay. :c")
+        self._clear_balances()
         self.is_active = False
 
   def get_state(self):
@@ -87,10 +91,10 @@ class EventDataController():
     return (self.is_active, self.team_balances, self.team_other_balances, self.bench_balances)
 
   def process(self):
-    """Process all events in queue
+    """Process all events in queue.
     """
     for event in self.events_queue:
-      self.__process__(event)
+      self._process(event)
     self.events_queue.clear()
 
 
