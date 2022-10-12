@@ -87,6 +87,11 @@ class MainView(QtWidgets.QMainWindow):
 
     self.setCentralWidget(self.hbox)
 
+  def _clear_bench_info_labels(self):
+    for label in self.bench_info_cells:
+      label.setText("")
+      label.setToolTip("")
+
   def _refresh(self):
     (left, top, right, bottom) = self.client_controller.find()
     # Calculate window dimensions
@@ -109,6 +114,7 @@ class MainView(QtWidgets.QMainWindow):
         
 
       # Process bench balances
+      self._clear_bench_info_labels()
       for i, balance in enumerate(bench_balances):
         if len(balance) > 0:  
           self.bench_info_cells[i].setText("ℹ️")
