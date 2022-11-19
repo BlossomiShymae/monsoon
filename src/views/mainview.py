@@ -1,7 +1,7 @@
 from PySide6 import QtWidgets, QtCore
-from constant import Embedded, Monsoon
-from controller import EventDataController, LeagueClientController
-from util import LayoutFactory, b64_to_qpixmap
+from constants import Embedded, Monsoon
+from controllers import EventDataController, LeagueClientController
+from utils import LayoutFactory, b64_to_qpixmap
 import os
 import traceback
 

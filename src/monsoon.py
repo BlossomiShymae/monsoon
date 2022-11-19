@@ -1,5 +1,5 @@
-from constant import Embedded, Stylesheet
-from controller import EventDataController, LeagueClientController
+from constants import Embedded, Stylesheet
+from controllers import EventDataController, LeagueClientController
 from service import ExecutorService, TimerService
 from template import SystemTray
 from util import b64_to_qicon

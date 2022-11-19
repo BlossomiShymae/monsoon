@@ -1,4 +1,4 @@
-from controller import EventDataController, LeagueClientController
+from controllers import EventDataController, LeagueClientController
 
 import asyncio
 import logging

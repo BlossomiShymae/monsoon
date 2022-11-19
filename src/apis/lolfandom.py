@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from model import BalanceModel
+from models import BalanceModel
 
 class LolFandom():
   def __init__(self):

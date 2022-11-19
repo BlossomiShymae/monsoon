@@ -1,10 +1,10 @@
 import pytest
-from controller import LeagueClientController
+from controllers import LeagueClientController
 
 # Make sure to run this test file with the League client running.
 # Otherwise, please skip. :3
 
-class TestController():
+class TestControllers():
   class TestLeagueClientController():
     def test_is_active_returns_true(self):
       controller = LeagueClientController()

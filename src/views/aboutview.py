@@ -1,6 +1,6 @@
 from PySide6 import QtWidgets, QtCore
-from constant import Embedded, Monsoon
-from util import b64_to_qpixmap, LayoutFactory
+from constants import Embedded, Monsoon
+from utils import b64_to_qpixmap, LayoutFactory
 
 class AboutView(QtWidgets.QMainWindow):
   def __init__(self):

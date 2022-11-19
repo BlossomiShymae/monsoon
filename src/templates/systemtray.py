@@ -1,9 +1,9 @@
 import os
 import webbrowser
 from PySide6 import QtWidgets
-from constant import Embedded, Monsoon
-from util import b64_to_qicon
-from view import AboutView
+from constants import Embedded, Monsoon
+from utils import b64_to_qicon
+from views import AboutView
 
 class SystemTray(QtWidgets.QSystemTrayIcon):
   def __init__(self):

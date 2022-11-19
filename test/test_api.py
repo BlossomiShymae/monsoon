@@ -1,7 +1,7 @@
 import pytest
-from api import DataDragon, LolFandom
+from apis import DataDragon, LolFandom
 
-class TestApi():
+class TestApis():
   class TestDataDragon():
     def test_api_returns_champion_data(self):
       champion_id = 37

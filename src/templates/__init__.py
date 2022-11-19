@@ -1,0 +1,1 @@
+from templates.systemtray import SystemTray

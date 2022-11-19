@@ -1,4 +1,4 @@
-from util.layoutfactory import LayoutFactory
+from utils.layoutfactory import LayoutFactory
 
 from PySide6 import QtCore, QtGui
 
