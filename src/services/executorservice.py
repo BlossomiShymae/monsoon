@@ -1,4 +1,8 @@
-from controllers import EventDataController, LeagueClientController
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+  from controllers import EventDataController, LeagueClientController
+from utils import EventHandler
 
 import asyncio
 from dependency_injector.wiring import Provide, inject
@@ -89,6 +93,7 @@ class ExecutorService():
         break
       sleep(5)
       self.league_client_controller.process()
+      self.event_data_controller.process()
       self._process()
 
   async def _exec_ui_loop(self):

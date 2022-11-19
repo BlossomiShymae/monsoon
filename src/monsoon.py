@@ -2,10 +2,12 @@ from container import Container
 from services import ApplicationHostService
 import services
 import views
+import viewmodels
 
 import asyncio
 from dependency_injector.wiring import Provide, inject
 import logging
+
 
 @inject
 def main(
@@ -20,6 +22,6 @@ if __name__ == "__main__":
   logging.basicConfig(level=logging.DEBUG)
   container = Container()
   container.init_resources()
-  container.wire(modules=[__name__], packages=[services, views])
+  container.wire(modules=[__name__], packages=[services, views, viewmodels])
 
   main()
