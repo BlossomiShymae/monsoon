@@ -2,23 +2,12 @@ from constants import Embedded, Stylesheet
 from controllers import EventDataController, LeagueClientController
 from services import ExecutorService, TimerService
 from templates import SystemTray
-from utils import b64_to_qicon
+from utils import b64_to_qicon, milliseconds_from_fps
 from views import MainView
 
 import asyncio
 import logging
 from PySide6 import QtWidgets
-
-def milliseconds_from_fps(fps: int) -> int:
-  """Calculate milliseconds from the rate of frames per second.
-
-  Args:
-      fps (int): Frames per second
-
-  Returns:
-      int: Milliseconds
-  """
-  return (1 / fps) * 1000
 
 def create_app() -> QtWidgets.QApplication:
   """Create our main Qt application with settings applied.

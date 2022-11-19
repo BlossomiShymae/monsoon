@@ -13,5 +13,16 @@ def b64_to_qpixmap(b64_image) -> QtGui.QPixmap:
 
     return pixmap
 
+def milliseconds_from_fps(fps: int) -> int:
+  """Calculate milliseconds from the rate of frames per second.
+
+  Args:
+      fps (int): Frames per second
+
+  Returns:
+      int: Milliseconds
+  """
+  return (1 / fps) * 1000
+
 
 
