@@ -1,4 +1,5 @@
 from utils.layoutfactory import LayoutFactory
+from utils.eventhandler import EventHandler
 
 from PySide6 import QtCore, QtGui
 
