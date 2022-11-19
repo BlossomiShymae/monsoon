@@ -2,6 +2,20 @@ from utils.layoutfactory import LayoutFactory
 
 from PySide6 import QtCore, QtGui
 
+
+class Timer():
+  def __init__(self, interval=int):
+    self.timer = QtCore.QTimer()
+    self.timer.timeout.connect(self.update)
+    self.timer.start(interval)
+
+  def add_slot(self, slot):
+    self.timer.timeout.connect(slot)
+
+  @QtCore.Slot()
+  def update(self):
+    pass
+
 def b64_to_qicon(b64_image) -> QtGui.QIcon:
     icon = QtGui.QIcon(b64_to_qpixmap(b64_image))
 

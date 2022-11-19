@@ -1,22 +1,26 @@
-from PySide6 import QtWidgets, QtCore
 from constants import Embedded, Monsoon
 from controllers import EventDataController, LeagueClientController
 from utils import LayoutFactory, b64_to_qpixmap
+
+from dependency_injector.wiring import Provide, inject
+from PySide6 import QtWidgets, QtCore
 import os
 import traceback
 
+
 class MainView(QtWidgets.QMainWindow):
+  @inject
   def __init__(
     self,
-    client_controller: LeagueClientController,
-    event_data_controller: EventDataController
+    league_client_controller: LeagueClientController = Provide["league_client_controller"],
+    event_data_controller: EventDataController = Provide["event_data_controller"]
     ):
 
     super().__init__()
     self.setObjectName("mainView")
 
     # Use dependency-injected controllers
-    self.client_controller = client_controller
+    self.league_client_controller = league_client_controller
     self.event_data_controller = event_data_controller
 
     # Set instance variables
@@ -93,7 +97,7 @@ class MainView(QtWidgets.QMainWindow):
       label.setToolTip("")
 
   def _refresh(self):
-    (left, top, right, bottom) = self.client_controller.find()
+    (left, top, right, bottom) = self.league_client_controller.find()
     # Calculate window dimensions
     height = bottom - top
     width = right - left
@@ -123,7 +127,7 @@ class MainView(QtWidgets.QMainWindow):
           self.bench_info_cells[i].setText("")
           self.bench_info_cells[i].setToolTip("")
       # Hide overlay if client window is not in foreground
-      if self.client_controller.is_foreground() or self.client_controller.is_overlayed():
+      if self.league_client_controller.is_foreground() or self.league_client_controller.is_overlayed():
         self.show()
       else:
         self.hide()
@@ -135,7 +139,7 @@ class MainView(QtWidgets.QMainWindow):
     
   @QtCore.Slot()
   def refresh(self):
-    if (self.client_controller.is_active()):
+    if (self.league_client_controller.is_active()):
       try:
         self._refresh()
       except Exception:

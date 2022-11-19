@@ -1,6 +1,7 @@
 from controllers import EventDataController, LeagueClientController
 
 import asyncio
+from dependency_injector.wiring import Provide, inject
 import logging
 import json
 from PySide6 import QtWidgets
@@ -12,19 +13,19 @@ import willump
 class ExecutorService():
   """Represents the executor that manages the state of the program.
   """
+  @inject
   def __init__(
     self, 
-    app: QtWidgets.QApplication, 
-    client_controller: LeagueClientController,
-    event_data_controller: EventDataController,
-    ui_event_loop: asyncio.AbstractEventLoop):
-    self.app = app
-    self.client_controller = client_controller
+    application: QtWidgets.QApplication = Provide["application"],
+    league_client_controller: LeagueClientController = Provide["league_client_controller"],
+    event_data_controller: EventDataController = Provide["event_data_controller"]):
+    self.application = application
+    self.league_client_controller = league_client_controller
     self.event_data_controller = event_data_controller
     self.is_program_exiting = False
     self.is_willump_active = False
     self.subscription = None
-    self.ui_event_loop = ui_event_loop
+    self.ui_event_loop = asyncio.get_event_loop()
     self.wllp = None
 
 
@@ -65,7 +66,7 @@ class ExecutorService():
     """Process the state of willump and create appropriate futures in event loop.
     """
     asyncio.set_event_loop(loop=self.ui_event_loop)
-    if self.client_controller.is_active():
+    if self.league_client_controller.is_active():
       if self.is_willump_active:
         logging.debug("hugging willump... :3")
         return
@@ -87,14 +88,14 @@ class ExecutorService():
       if self.is_program_exiting:
         break
       sleep(5)
-      self.client_controller.process()
+      self.league_client_controller.process()
       self._process()
 
   async def _exec_ui_loop(self):
     """Execute the event loop responsible for Qt render and WebSocket events.
     """
     while True:
-      self.app.processEvents()
+      self.application.processEvents()
       await asyncio.sleep(0, loop=self.ui_event_loop)
   
   def _start_thread(self, task):
@@ -108,3 +109,6 @@ class ExecutorService():
     """
     self._start_thread(self._exec_client_loop_task)
     await self._exec_ui_loop()
+  
+  def set_app(self, app: QtWidgets.QApplication):
+    self.application = app
