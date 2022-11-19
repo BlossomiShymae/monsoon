@@ -1,9 +1,9 @@
 from constants import Embedded, Stylesheet
 from controllers import EventDataController, LeagueClientController
-from service import ExecutorService, TimerService
-from template import SystemTray
-from util import b64_to_qicon
-from view import MainView
+from services import ExecutorService, TimerService
+from templates import SystemTray
+from utils import b64_to_qicon
+from views import MainView
 
 import asyncio
 import logging
