@@ -1,6 +1,6 @@
-from api import DataDragon, LolFandom
-from constant import WebSocketEvent
-from model import SessionModel
+from apis import DataDragon, LolFandom
+from constants import WebSocketEvent
+from models import SessionModel
 
 import logging
 

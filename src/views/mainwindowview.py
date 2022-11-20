@@ -1,23 +1,26 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+  from viewmodels import MainWindowViewModel
+from constants import Monsoon
+from utils import LayoutFactory
+
+from dependency_injector.wiring import Provide, inject
 from PySide6 import QtWidgets, QtCore
-from constant import Embedded, Monsoon
-from controller import EventDataController, LeagueClientController
-from util import LayoutFactory, b64_to_qpixmap
 import os
 import traceback
 
-class MainView(QtWidgets.QMainWindow):
+
+class MainWindowView(QtWidgets.QMainWindow):
+  @inject
   def __init__(
     self,
-    client_controller: LeagueClientController,
-    event_data_controller: EventDataController
+    main_window_viewmodel: MainWindowViewModel = Provide["main_window_viewmodel"]
     ):
 
     super().__init__()
-    self.setObjectName("mainView")
-
-    # Use dependency-injected controllers
-    self.client_controller = client_controller
-    self.event_data_controller = event_data_controller
+    self.viewmodel = main_window_viewmodel
+    self.setObjectName(self.viewmodel.object_name)
 
     # Set instance variables
     (self.hbox, self.hbox_layout) = LayoutFactory.create_horizontal()
@@ -68,7 +71,7 @@ class MainView(QtWidgets.QMainWindow):
 
     # Set application info columns
     wordmark_label = QtWidgets.QLabel("")
-    wordmark_label.setPixmap(b64_to_qpixmap(Embedded.wordmark()))
+    wordmark_label.setPixmap(self.viewmodel.wordmark)
     wordmark_label.setSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Ignored)
     wordmark_label.setScaledContents(True)
     self.app_info_hbox_layout.addWidget(wordmark_label)
@@ -87,35 +90,44 @@ class MainView(QtWidgets.QMainWindow):
 
     self.setCentralWidget(self.hbox)
 
+    # Set event subscriptions
+    self.viewmodel.property_changed += self.refresh
+
   def _clear_bench_info_labels(self):
     for label in self.bench_info_cells:
       label.setText("")
       label.setToolTip("")
 
-  def _refresh(self):
-    (left, top, right, bottom) = self.client_controller.find()
-    # Calculate window dimensions
-    height = bottom - top
-    width = right - left
+  def hide_window(self):
+    self.hide()
 
-    # Have our event data controller process any events in queue
-    self.event_data_controller.process()
-    (is_active, team_balances, team_other_balances, bench_balances) = self.event_data_controller.get_state()
-    if is_active:
+  def show_window(self):
+    self.show()
+    
+  def refresh(self, sender, event_args):
+    # Adjust view based on League client (lock onto it)
+    self.setGeometry(self.viewmodel.left, self.viewmodel.top, self.viewmodel.width, self.viewmodel.height)
+    if not self.viewmodel.is_league_client_active:
+      self.hide_window()
+      return
+    try:
+      if not self.viewmodel.is_session_active:
+        self.hide_window()
+        return
+
       # Process team balances
-      for i, balance in enumerate(team_balances):
+      for i, balance in enumerate(self.viewmodel.team_balances):
         self.team_damages_rows[i].setText(balance)
-        if len(balance) > 0 and "Other changes" in team_other_balances[i]:
+        if len(balance) > 0 and "Other changes" in self.viewmodel.team_other_balances[i]:
           self.team_others_rows[i].setText("ℹ️")
-          self.team_others_rows[i].setToolTip(team_other_balances[i])
+          self.team_others_rows[i].setToolTip(self.viewmodel.team_other_balances[i])
         else:
           self.team_others_rows[i].setText("")
           self.team_others_rows[i].setToolTip("")
         
-
       # Process bench balances
       self._clear_bench_info_labels()
-      for i, balance in enumerate(bench_balances):
+      for i, balance in enumerate(self.viewmodel.bench_balances):
         if len(balance) > 0:  
           self.bench_info_cells[i].setText("ℹ️")
           self.bench_info_cells[i].setToolTip(balance)
@@ -123,27 +135,17 @@ class MainView(QtWidgets.QMainWindow):
           self.bench_info_cells[i].setText("")
           self.bench_info_cells[i].setToolTip("")
       # Hide overlay if client window is not in foreground
-      if self.client_controller.is_foreground() or self.client_controller.is_overlayed():
-        self.show()
+      if self.viewmodel.is_client_foreground or self.viewmodel.is_client_overlayed:
+        self.show_window()
       else:
-        self.hide()
-    else:
-      self.hide()
+        self.hide_window()
 
-    # Adjust view based on League client (lock onto it)
-    self.setGeometry(left, top, width, height)
-    
-  @QtCore.Slot()
-  def refresh(self):
-    if (self.client_controller.is_active()):
-      try:
-        self._refresh()
-      except Exception:
-        msg = QtWidgets.QMessageBox()
-        msg.setIcon(QtWidgets.QMessageBox.Critical)
-        msg.setText("Error")
-        msg.setInformativeText(traceback.format_exc())
-        msg.setWindowTitle(":bee_sad:")
-        msg.exec_()
-        os._exit(-1)
+    except Exception:
+      msg = QtWidgets.QMessageBox()
+      msg.setIcon(QtWidgets.QMessageBox.Critical)
+      msg.setText("Error")
+      msg.setInformativeText(traceback.format_exc())
+      msg.setWindowTitle(":bee_sad:")
+      msg.exec_()
+      os._exit(-1)
 

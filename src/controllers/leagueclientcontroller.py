@@ -1,6 +1,6 @@
 from win32.win32gui import EnumWindows, GetWindowRect, GetForegroundWindow, GetWindowText
 from win32.win32process import GetWindowThreadProcessId
-from constant import Monsoon
+from constants import Monsoon
 
 import subprocess
 import re

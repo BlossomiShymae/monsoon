@@ -56,14 +56,15 @@ Monsoon may not work with multiple League clients open at the same time
 # FAQ
 **How was Monsoon made?**
 
-Monsoon's codebase was developed using Python in the span of four days. 
+Monsoon's initial codebase was developed using Python in the span of four days. 
 Notable packages include:
 - PySide6 
 (binding of the Qt GUI toolkit)
 - willump (League Client connector)
 - pywin32 
 (makes overlay possible)
-- beautifulsoup4 (parsing balance changes).
+- beautifulsoup4 (parsing balance changes)
+- dependency-injector (dependency injection system)
 
 **Does Monsoon support Mac (or even Linux with Wine)?**
 
