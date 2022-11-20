@@ -2,7 +2,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
   from controllers import EventDataController, LeagueClientController
-from utils import milliseconds_from_fps
 
 import asyncio
 from dependency_injector.wiring import Provide, inject
