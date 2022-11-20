@@ -48,7 +48,7 @@ class ApplicationHostService():
     self._configure_application()
     tray = self._create_tray()
     
-    await self.executor_service.exec_event_loop()
+    self.executor_service.exec()
 
   async def stop_async(self):
     """Stops our main application.

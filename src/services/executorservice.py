@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
   from controllers import EventDataController, LeagueClientController
-from utils import EventHandler
+from utils import milliseconds_from_fps
 
 import asyncio
 from dependency_injector.wiring import Provide, inject
@@ -29,9 +29,8 @@ class ExecutorService():
     self.is_program_exiting = False
     self.is_willump_active = False
     self.subscription = None
-    self.ui_event_loop = asyncio.get_event_loop()
+    self.loop = asyncio.new_event_loop()
     self.wllp = None
-
 
   async def _on_websocket_event(self, data):
     """Pass WebSocket event data to the event data controller. Mutative.
@@ -61,15 +60,15 @@ class ExecutorService():
     # This should be handled by `willump` but we have to bandaid fix this for now. :c
     # Submit a pull request if a better alternative is found.
     sleep(5)
+    # Don't forget to use asyncio.run at some point so that we can process events!
     self.subscription = await self.wllp.subscribe(
       "OnJsonApiEvent_lol-champ-select_v1_session",
         default_handler=self._on_websocket_event
     )
 
-  def _process(self):
+  async def _process_willump(self):
     """Process the state of willump and create appropriate futures in event loop.
     """
-    asyncio.set_event_loop(loop=self.ui_event_loop)
     if self.league_client_controller.is_active():
       if self.is_willump_active:
         logging.debug("hugging willump... :3")
@@ -77,43 +76,33 @@ class ExecutorService():
 
       logging.debug("requesting willump... o.o")
       self.is_willump_active = True
-      asyncio.ensure_future(self._exec_willump())
+      await self._exec_willump()
       return
 
     # Probable that the League client process is dead if we have reached this point.
     logging.debug("bye bye willump... u.u")
-    asyncio.ensure_future(self._kill_willump())
+    await self._kill_willump()
 
 
-  def _exec_client_loop_task(self):
-    """Long-running client processing loop that will run in a seperate thread.
+  async def _exec_async_background_task(self):
+    """Long-running task that processes asynchronous background events.
     """
     while True:
       if self.is_program_exiting:
         break
-      sleep(5)
       self.league_client_controller.process()
       self.event_data_controller.process()
-      self._process()
-
-  async def _exec_ui_loop(self):
-    """Execute the event loop responsible for Qt render and WebSocket events.
-    """
-    while True:
-      self.application.processEvents()
-      await asyncio.sleep(0, loop=self.ui_event_loop)
+      await self._process_willump()
+      # Process WebSocket subscription futures from willump
+      await asyncio.sleep(1)
   
-  def _start_thread(self, task):
-    """Execute a thread with a given task.
-    """
-    thread = Thread(target=task)
-    thread.start()
+  def _exec_background_task(self):
+    asyncio.set_event_loop(self.loop)
+    self.loop.run_until_complete(self._exec_async_background_task())
   
-  async def exec_event_loop(self):
-    """Execute the main orchestrating event loop.
+  def exec(self):
+    """Execute the main application by running tasks.
     """
-    self._start_thread(self._exec_client_loop_task)
-    await self._exec_ui_loop()
-  
-  def set_app(self, app: QtWidgets.QApplication):
-    self.application = app
+    background_thread = Thread(target=self._exec_background_task)
+    background_thread.start()
+    self.application.exec()
