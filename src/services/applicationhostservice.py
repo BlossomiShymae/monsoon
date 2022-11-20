@@ -5,7 +5,6 @@ if TYPE_CHECKING:
   from services import ExecutorService, GraphicalWorkerService
   from views import MainView, SystemTray
 from constants import Stylesheet, Embedded
-from templates import SystemTray
 from utils import b64_to_qicon
 
 from dependency_injector.wiring import Provide, inject
