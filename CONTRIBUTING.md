@@ -4,7 +4,7 @@ isn't necessary, it will be easier to understand the nature of the project. :3
 
 For the programming domain:
 - Python
-- Model-view-controller architecture
+- Model-view-viewmodel architecture (with some controllers >.<)
 - Object-oriented programming
   - Composition-over-inheritance
   - Inversion-of-control (dependency injection)
