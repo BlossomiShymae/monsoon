@@ -1,7 +1,7 @@
 from controllers import LeagueClientController, EventDataController
 from services import ExecutorService, ApplicationHostService, GraphicalWorkerService
 from views import MainWindowView, AboutWindowView, SystemTray
-from viewmodels import MainWindowViewModel, AboutWindowViewModel
+from viewmodels import MainWindowViewModel, AboutWindowViewModel, SystemTrayViewModel
 
 from dependency_injector import containers, providers
 from PySide6 import QtWidgets
@@ -24,6 +24,7 @@ class Container(containers.DeclarativeContainer):
   # Views and ViewModels
   application = providers.Singleton(QtWidgets.QApplication)
   system_tray = providers.Singleton(SystemTray)
+  system_tray_viewmodel = providers.Singleton(SystemTrayViewModel)
   main_window_viewmodel = providers.Singleton(MainWindowViewModel)
   main_window_view = providers.Singleton(MainWindowView)
   about_window_viewmodel = providers.Singleton(AboutWindowViewModel)
