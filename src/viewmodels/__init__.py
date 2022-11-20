@@ -1,1 +1,2 @@
 from viewmodels.mainwindowviewmodel import MainWindowViewModel
+from viewmodels.aboutwindowviewmodel import AboutWindowViewModel
