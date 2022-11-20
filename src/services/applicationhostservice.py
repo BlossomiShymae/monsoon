@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
   from services import ExecutorService, GraphicalWorkerService
-  from views import MainView
+  from views import MainView, SystemTray
 from constants import Stylesheet, Embedded
 from templates import SystemTray
 from utils import b64_to_qicon
@@ -19,34 +19,25 @@ class ApplicationHostService():
    executor_service: ExecutorService = Provide["executor_service"],
    graphical_worker_service: GraphicalWorkerService = Provide["graphical_worker_service"],
    application: QtWidgets.QApplication = Provide["application"],
+   system_tray: SystemTray = Provide["system_tray"],
    main_view: MainView = Provide["main_view"]) -> None:
     self.executor_service = executor_service
     self.graphical_worker_service = graphical_worker_service
     self.main_view = main_view
     self.application = application
+    self.system_tray = system_tray
   
   def _configure_application(self) -> None:
     """Configure our main Qt application with settings applied.
     """
     self.application.setStyleSheet(Stylesheet.value())
     self.application.setWindowIcon(b64_to_qicon(Embedded.icon()))
-  
-  def _create_tray(self) -> SystemTray:
-    """Create our system tray with actions.
-
-    Returns:
-        SystemTray: System tray
-    """
-    tray = SystemTray()
-    tray.show()
-    
-    return tray
 
   async def start_async(self):
     """Starts our main application.
     """
     self._configure_application()
-    tray = self._create_tray()
+    self.system_tray.show()
     
     self.executor_service.exec()
 

@@ -1,18 +1,24 @@
-import os
-import webbrowser
-from PySide6 import QtWidgets
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+  from views import AboutView
 from constants import Embedded, Monsoon
 from utils import b64_to_qicon
-from views import AboutView
+
+from PySide6 import QtWidgets
+from dependency_injector.wiring import Provide, inject
+import os
+import webbrowser
 
 class SystemTray(QtWidgets.QSystemTrayIcon):
-  def __init__(self):
+  @inject
+  def __init__(self, about_window_view: AboutView = Provide["about_view"]):
     super().__init__()
     
     # Setup system tray icon
     self.setIcon(b64_to_qicon(Embedded.icon()))
     self.setToolTip(Monsoon.TITLE.value)
-    self.about_dialog = AboutView()
+    self.about_window_view = about_window_view
 
     # Set context menu
     menu = QtWidgets.QMenu()
@@ -34,7 +40,7 @@ class SystemTray(QtWidgets.QSystemTrayIcon):
     self.setContextMenu(menu)
   
   def _open_about(self):
-    self.about_dialog.show()
+    self.about_window_view.show()
 
   def _open_web_link(self, url: str):
     webbrowser.open(url)
