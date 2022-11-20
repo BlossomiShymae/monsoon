@@ -63,3 +63,27 @@ class LolFandom():
         BalanceModel: Represents the balance changes for a champion in ARAM.
     """
     return self.__balances_by_key.get(name)
+  
+  def fetch_championdata_module(self) -> str:
+    """Fetch Module:ChampionData from LoL Fandom that contains ARAM balance
+    changes. Returns extracted Lua code.
+
+    Raises:
+        Exception: Response not 200
+        Exception: Failed to select module
+
+    Returns:
+        str: Raw Lua code which itself returns table of champion statistics.
+    """
+    req = requests.get(f"{self.url}/wiki/Module:ChampionData/data")
+
+    if req.status_code != 200:
+      raise Exception("Failed to get Module:ChampionData from LoL Fandom")
+    
+    soup = BeautifulSoup(req.text, "html.parser")
+    select = soup.select("pre.mw-code")
+    if len(select) != 1:
+      raise Exception("Failed to select Module:ChampionData from LoL Fandom")
+    
+    championdata_module = select[0].text
+    return championdata_module
