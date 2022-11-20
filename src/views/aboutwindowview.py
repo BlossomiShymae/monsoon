@@ -8,7 +8,7 @@ from PySide6 import QtWidgets, QtCore
 from dependency_injector.wiring import Provide, inject
 
 
-class AboutView(QtWidgets.QMainWindow):
+class AboutWindowView(QtWidgets.QMainWindow):
   @inject
   def __init__(
     self, 

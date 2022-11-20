@@ -11,7 +11,7 @@ import os
 import traceback
 
 
-class MainView(QtWidgets.QMainWindow):
+class MainWindowView(QtWidgets.QMainWindow):
   @inject
   def __init__(
     self,

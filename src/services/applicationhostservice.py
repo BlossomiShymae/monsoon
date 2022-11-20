@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
   from services import ExecutorService, GraphicalWorkerService
-  from views import MainView, SystemTray
+  from views import MainWindowView, SystemTray
 from constants import Stylesheet, Embedded
 from utils import b64_to_qicon
 
@@ -19,10 +19,10 @@ class ApplicationHostService():
    graphical_worker_service: GraphicalWorkerService = Provide["graphical_worker_service"],
    application: QtWidgets.QApplication = Provide["application"],
    system_tray: SystemTray = Provide["system_tray"],
-   main_view: MainView = Provide["main_view"]) -> None:
+   main_window_view: MainWindowView = Provide["main_window_view"]) -> None:
     self.executor_service = executor_service
     self.graphical_worker_service = graphical_worker_service
-    self.main_view = main_view
+    self.main_window_view = main_window_view
     self.application = application
     self.system_tray = system_tray
   

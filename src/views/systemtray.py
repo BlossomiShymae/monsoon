@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-  from views import AboutView
+  from views import AboutWindowView
 from constants import Embedded, Monsoon
 from utils import b64_to_qicon
 
@@ -12,7 +12,7 @@ import webbrowser
 
 class SystemTray(QtWidgets.QSystemTrayIcon):
   @inject
-  def __init__(self, about_window_view: AboutView = Provide["about_view"]):
+  def __init__(self, about_window_view: AboutWindowView = Provide["about_window_view"]):
     super().__init__()
     
     # Setup system tray icon
