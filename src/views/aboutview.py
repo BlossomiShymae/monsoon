@@ -13,7 +13,7 @@ class AboutView(QtWidgets.QMainWindow):
     (self.vbox, self.vbox_layout) = LayoutFactory.create_vertical()
     (self.header, self.header_layout) = LayoutFactory.create_horizontal()
     self.ok_button = QtWidgets.QPushButton("Ok")
-    self.ok_button.clicked.connect(self._close_window)
+    self.ok_button.clicked.connect(self._hide_window)
 
     # Set header layout
     wordmark_label = QtWidgets.QLabel("")
@@ -42,6 +42,6 @@ class AboutView(QtWidgets.QMainWindow):
     self.setFixedSize(self.vbox_layout.sizeHint())
     self.setCentralWidget(self.vbox)
 
-  def _close_window(self):
-    self.close()
+  def _hide_window(self):
+    self.hide()
 
