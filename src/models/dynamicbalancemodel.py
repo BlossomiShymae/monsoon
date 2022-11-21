@@ -22,3 +22,4 @@ class DynamicBalanceModel:
     label = self._format_champion_name()
     for balance_lever in self.balance_levers:
       label += f"\n{balance_lever.format()}"
+    return label
