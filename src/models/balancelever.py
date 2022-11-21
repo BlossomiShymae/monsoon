@@ -13,8 +13,8 @@ class BalanceLever:
     return self.name.replace("_", " ").title()
   
   def _format_modifier(self) -> str:
-    percentage = int((self.modifier - 1.00) * 100)
-    sign = "+" if percentage >= 0 else "-"
+    percentage = (self.modifier - 1.00) * 100
+    sign = "+" if percentage >= 0 else ""
     return f"{sign} {percentage}"
   
   def format(self) -> str:
@@ -23,4 +23,4 @@ class BalanceLever:
     Returns:
         str: Formatted string reperesentation of a balance lever.
     """
-    return f"{self._format_name()}: {self._format_modifier()}"
+    return f"{self._format_name()}: {self._format_modifier()}%"
