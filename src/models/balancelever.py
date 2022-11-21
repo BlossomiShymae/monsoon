@@ -13,7 +13,7 @@ class BalanceLever:
     return self.name.replace("_", " ").title()
   
   def _format_modifier(self) -> str:
-    percentage = (self.modifier - 1.00) * 100
+    percentage = round((self.modifier - 1.00) * 100)
     sign = "+" if percentage >= 0 else ""
     return f"{sign} {percentage}"
   

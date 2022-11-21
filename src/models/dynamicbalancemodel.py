@@ -20,6 +20,7 @@ class DynamicBalanceModel:
         str: Formatted string representation of dynamic balance changes.
     """
     label = self._format_champion_name()
-    for balance_lever in self.balance_levers:
-      label += f"\n{balance_lever.format()}"
+    for i, balance_lever in enumerate(self.balance_levers):
+      spacer = "\n" if i % 2 == 0 else " "
+      label += f"{spacer}{balance_lever.format()}"
     return label
