@@ -8,6 +8,8 @@ from utils import b64_to_qicon
 
 from dependency_injector.wiring import Provide, inject
 from PySide6 import QtWidgets
+import os
+import traceback
 
 
 class ApplicationHostService():
@@ -36,7 +38,10 @@ class ApplicationHostService():
     self._configure_application()
     self.system_tray.show()
     
-    self.executor_service.exec()
+    try:
+      self.executor_service.exec()
+    except Exception:
+      await self.on_exception()
 
   async def stop_async(self):
     """Stops our main application.
@@ -47,5 +52,17 @@ class ApplicationHostService():
     self.graphical_worker_service.isRunning = False
     self.graphical_worker_service.wait()
     print()
+  
+  async def on_exception(self):
+    """Stops executor and gracefully prepare to exit program.
+    """
+    await self.stop_async()
+    msg = QtWidgets.QMessageBox()
+    msg.setIcon(QtWidgets.QMessageBox.Critical)
+    msg.setText("Error")
+    msg.setInformativeText(traceback.format_exc())
+    msg.setWindowTitle(":bee_sad:")
+    msg.exec_()
+    os._exit(-1)
       
 

@@ -110,42 +110,33 @@ class MainWindowView(QtWidgets.QMainWindow):
     if not self.viewmodel.is_league_client_active:
       self.hide_window()
       return
-    try:
-      if not self.viewmodel.is_session_active:
-        self.hide_window()
-        return
 
-      # Process team balances
-      for i, balance in enumerate(self.viewmodel.team_balances):
-        self.team_damages_rows[i].setText(balance)
-        if len(balance) > 0 and "Other changes" in self.viewmodel.team_other_balances[i]:
-          self.team_others_rows[i].setText("ℹ️")
-          self.team_others_rows[i].setToolTip(self.viewmodel.team_other_balances[i])
-        else:
-          self.team_others_rows[i].setText("")
-          self.team_others_rows[i].setToolTip("")
-        
-      # Process bench balances
-      self._clear_bench_info_labels()
-      for i, balance in enumerate(self.viewmodel.bench_balances):
-        if len(balance) > 0:  
-          self.bench_info_cells[i].setText("ℹ️")
-          self.bench_info_cells[i].setToolTip(balance)
-        else:
-          self.bench_info_cells[i].setText("")
-          self.bench_info_cells[i].setToolTip("")
-      # Hide overlay if client window is not in foreground
-      if self.viewmodel.is_client_foreground or self.viewmodel.is_client_overlayed:
-        self.show_window()
+    if not self.viewmodel.is_session_active:
+      self.hide_window()
+      return
+
+    # Process team balances
+    for i, balance in enumerate(self.viewmodel.team_balances):
+      self.team_damages_rows[i].setText(balance)
+      # if len(balance) > 0 and "Other changes" in self.viewmodel.team_other_balances[i]:
+      #   self.team_others_rows[i].setText("ℹ️")
+      #   self.team_others_rows[i].setToolTip(self.viewmodel.team_other_balances[i])
+      # else:
+      #   self.team_others_rows[i].setText("")
+      #   self.team_others_rows[i].setToolTip("")
+      
+    # Process bench balances
+    self._clear_bench_info_labels()
+    for i, balance in enumerate(self.viewmodel.bench_balances):
+      if len(balance) > 0:  
+        self.bench_info_cells[i].setText("ℹ️")
+        self.bench_info_cells[i].setToolTip(balance)
       else:
-        self.hide_window()
-
-    except Exception:
-      msg = QtWidgets.QMessageBox()
-      msg.setIcon(QtWidgets.QMessageBox.Critical)
-      msg.setText("Error")
-      msg.setInformativeText(traceback.format_exc())
-      msg.setWindowTitle(":bee_sad:")
-      msg.exec_()
-      os._exit(-1)
+        self.bench_info_cells[i].setText("")
+        self.bench_info_cells[i].setToolTip("")
+    # Hide overlay if client window is not in foreground
+    if self.viewmodel.is_client_foreground or self.viewmodel.is_client_overlayed:
+      self.show_window()
+    else:
+      self.hide_window()
 

@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 if TYPE_CHECKING:
   from controllers import EventDataController, LeagueClientController
   from services import ExecutorService, GraphicalWorkerService
@@ -35,9 +35,9 @@ class MainWindowViewModel():
     self.is_session_active = False
     self.is_client_foreground = False
     self.is_client_overlayed = False
-    self.team_balances: list(BalanceModel) = []
-    self.team_other_balances: list(BalanceModel) = []
-    self.bench_balances: list(BalanceModel) = []
+    self.team_balances: List[str] = []
+    self.team_other_balances: List[str] = []
+    self.bench_balances: List[str] = []
 
     self.property_changed = EventHandler()
     self.graphical_worker_service.update_signal.connect(self.update_properties)
