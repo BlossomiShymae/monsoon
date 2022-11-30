@@ -14,4 +14,3 @@ class TestApis():
       champion_name = 'Sona'
       api = LolFandom()
       assert api.fetch_balance_by_champion_name(champion_name) != None
-    

@@ -57,12 +57,12 @@ class EventDataController():
         if len(session.team_champions) > 1:
           for champion_id in session.team_champions:
             champion = self.dd_api.fetch_by_champion_id(champion_id)
-            balance = self.lf_api.fetch_balance_by_champion_name(champion["name"])
+            balance = self.lf_api.fetch_dynamic_balance_by_champion_name(champion["name"])
             if balance == None:
               team_display = ""
               team_other_display = ""
             else:
-              team_display = balance.format_minimal()
+              team_display = balance.format()
               team_other_display = balance.format()
             self.team_balances.append(team_display)
             self.team_other_balances.append(team_other_display)
@@ -70,7 +70,7 @@ class EventDataController():
         if len(session.bench_champions) > 1:
           for champion_id in session.bench_champions:
             champion = self.dd_api.fetch_by_champion_id(champion_id)
-            balance = self.lf_api.fetch_balance_by_champion_name(champion["name"])
+            balance = self.lf_api.fetch_dynamic_balance_by_champion_name(champion["name"])
             if balance == None:
               bench_display = ""
             else:
