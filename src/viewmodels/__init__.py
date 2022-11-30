@@ -1,3 +1,4 @@
 from viewmodels.mainwindowviewmodel import MainWindowViewModel
 from viewmodels.aboutwindowviewmodel import AboutWindowViewModel
 from viewmodels.systemtrayviewmodel import SystemTrayViewModel
+from viewmodels.appwindowviewmodel import AppWindowViewModel
