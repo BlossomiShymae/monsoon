@@ -14,3 +14,8 @@ class TestApis():
       champion_name = 'Sona'
       api = LolFandom()
       assert api.fetch_balance_by_champion_name(champion_name) != None
+    
+    def test_api_has_processed_dynamic_data(self):
+      champion_name = 'Sona'
+      api = LolFandom()
+      assert api.fetch_dynamic_balance_by_champion_name(champion_name) != None
