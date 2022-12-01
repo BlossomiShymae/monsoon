@@ -1,5 +1,6 @@
-from utils.layoutfactory import LayoutFactory
+from utils.layoutfactory import LayoutFactory, StretchTypes
 from utils.eventhandler import EventHandler
+from utils.widgets import QImage
 
 from PySide6 import QtCore, QtGui
 

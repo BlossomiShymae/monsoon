@@ -1,5 +1,10 @@
 from controllers import LeagueClientController, EventDataController
-from services import ExecutorService, ApplicationHostService, GraphicalWorkerService
+from services import (
+  ExecutorService, 
+  ApplicationHostService, 
+  GraphicalWorkerService,
+  WorkerService
+)
 from views import MainWindowView, AboutWindowView, SystemTray, AppWindowView
 from viewmodels import MainWindowViewModel, AboutWindowViewModel, SystemTrayViewModel, AppWindowViewModel
 from dependency_injector import containers, providers
@@ -18,6 +23,7 @@ class Container(containers.DeclarativeContainer):
   # Services
   executor_service = providers.ThreadSafeSingleton(ExecutorService)
   application_host_service = providers.ThreadSafeSingleton(ApplicationHostService)
+  worker_service = providers.ThreadSafeSingleton(WorkerService)
   graphical_worker_service = providers.ThreadSafeSingleton(GraphicalWorkerService)
 
   # Views and ViewModels

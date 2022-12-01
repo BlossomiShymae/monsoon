@@ -91,7 +91,7 @@ class ExecutorService():
         break
       self.league_client_controller.process()
       self.event_data_controller.process()
-      await self._process_willump()
+      # await self._process_willump()
       # Process WebSocket subscription futures from willump
       await asyncio.sleep(1)
   
