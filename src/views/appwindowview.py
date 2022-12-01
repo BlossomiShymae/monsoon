@@ -2,11 +2,13 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
   from viewmodels import AppWindowViewModel
+  from models import DynamicBalanceModel
 from constants import Monsoon
-from utils import LayoutFactory, QImage, StretchTypes
+from utils import LayoutFactory, StretchTypes
+from views import QImage, QChampionTemplate
 
 from dependency_injector.wiring import Provide, inject
-from PySide6 import QtWidgets, QtCore
+from PySide6 import QtWidgets, QtCore, QtGui
 
 class AppWindowView(QtWidgets.QMainWindow):
   @inject
@@ -31,39 +33,64 @@ class AppWindowView(QtWidgets.QMainWindow):
     self.title_bar.widget.setMaximumHeight(64)
 
     self.team_champions_panel.layout.addWidget(QtWidgets.QLabel("Team Champions"))
+    self.team_champions_list_box_widgets: QChampionTemplate = []
     for i in range(5):
-      self.team_champions_list_box.layout.addWidget(self.create_champion_data_template())
+      widget = QChampionTemplate()
+      self.team_champions_list_box.layout.addWidget(widget)
+      self.team_champions_list_box_widgets.append(widget)
     self.team_champions_list_box.widget.setSizePolicy(LayoutFactory.create_size_policy(StretchTypes.VERTICAL, 3))
     self.team_champions_panel.layout.addWidget(self.team_champions_list_box.widget)
 
     self.available_champions_panel.layout.addWidget(QtWidgets.QLabel("Available Champions"))
+    self.available_champions_list_box_widgets: QChampionTemplate = []
     for i in range(2):
       for j in range(5):
-        self.available_champions_list_box.layout.addWidget(self.create_champion_data_template(), j+1, i+1)
+        widget = QChampionTemplate()
+        self.available_champions_list_box.layout.addWidget(widget, j+1, i+1)
+        self.available_champions_list_box_widgets.append(widget)
     self.available_champions_list_box.widget.setSizePolicy(LayoutFactory.create_size_policy(StretchTypes.VERTICAL, 1))
     self.available_champions_panel.layout.addWidget(self.available_champions_list_box.widget)
 
+    self.team_champions_panel.widget.setSizePolicy(LayoutFactory.create_size_policy(StretchTypes.HORIZONTAL, 1))
     self.content_area.layout.addWidget(self.team_champions_panel.widget)
+    self.available_champions_panel.widget.setSizePolicy(LayoutFactory.create_size_policy(StretchTypes.HORIZONTAL, 2))
     self.content_area.layout.addWidget(self.available_champions_panel.widget)
     self.vbox.layout.addWidget(self.title_bar.widget)
     self.vbox.layout.addWidget(self.content_area.widget)
+
+    # Subscribe to viewmodel events
+    self.viewmodel.property_changed += self.on_property_changed
 
     # Set window properties
     self.resize(self.viewmodel.width, self.viewmodel.height)
     self.setWindowTitle(self.viewmodel.window_title)
     self.setCentralWidget(self.vbox.widget)
   
-  def create_champion_data_template(self) -> QtWidgets.QWidget:
-    self.champion_hbox = LayoutFactory.create_horizontal_proxy()
-    self.champion_image_vbox = LayoutFactory.create_vertical_proxy()
-    self.champion_textblock_vbox = LayoutFactory.create_vertical_proxy()
-
-    self.champion_image_vbox.widget.setMaximumWidth(200)
-    self.champion_textblock_vbox.layout.addWidget(QtWidgets.QLabel("test"))
-    self.champion_textblock_vbox.layout.addWidget(QtWidgets.QLabel("test"))
-    self.champion_textblock_vbox.layout.addWidget(QtWidgets.QLabel("test"))
-
-
-    self.champion_hbox.layout.addWidget(self.champion_image_vbox.widget)
-    self.champion_hbox.layout.addWidget(self.champion_textblock_vbox.widget)
-    return self.champion_hbox.widget
+  def on_property_changed(self, event, args) -> None:
+    for x in self.available_champions_list_box_widgets:
+      widget: QChampionTemplate = x
+      widget.clear_contents()
+    for x in self.team_champions_list_box_widgets:
+      widget: QChampionTemplate = x
+      widget.clear_contents()
+    
+    for (i, x) in enumerate(self.viewmodel.available_champion_dynamic_balances):
+      balance: DynamicBalanceModel = x
+      widget: QChampionTemplate = self.available_champions_list_box_widgets[i]
+      if balance.champion_icon is not None:
+        pixmap = QtGui.QPixmap()
+        pixmap.loadFromData(balance.champion_icon)
+        widget.set_champion_image(pixmap)
+      widget.set_champion_image_text(balance.champion_name)
+      widget.set_champion_text(balance.format())
+    
+    for (i, x) in enumerate(self.viewmodel.team_champion_dynamic_balances):
+      balance: DynamicBalanceModel = x
+      widget: QChampionTemplate = self.team_champions_list_box_widgets[i]
+      if balance.champion_icon is not None:
+        pixmap = QtGui.QPixmap()
+        pixmap.loadFromData(balance.champion_icon)
+        widget.set_champion_image(pixmap)
+      widget.set_champion_image_text(balance.champion_name)
+      widget.set_champion_text(balance.format())
+      
