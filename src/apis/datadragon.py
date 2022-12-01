@@ -45,10 +45,10 @@ class DataDragon():
     if champion_name is None:
       raise Exception("Invalid champion id")
 
-    if self.champion_icons[champion_name] is None:
+    if not champion_name in self.champion_icons:
       req = requests.get(f"{self.url}/cdn/{self.latest_version}/img/champion/{champion_name}.png", stream=True)
       if req.status_code != 200:
         raise Exception("Failed to get champion icon from DataDragon")
       self.champion_icons[champion_name] = req.content
 
-    return self.icons[champion_name]
+    return self.champion_icons[champion_name]
