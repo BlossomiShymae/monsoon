@@ -5,6 +5,7 @@ class DataDragon():
     self.url = "https://ddragon.leagueoflegends.com"
     self.latest_version = self._fetch_latest_version()
     self.champions = self._fetch_champions()
+    self.champion_icons = dict()
   
   def _fetch_latest_version(self):
     req = requests.get(f"{self.url}/api/versions.json")
@@ -32,3 +33,22 @@ class DataDragon():
         return data[id]
     
     return None
+  
+  def fetch_icon_by_champion_id(self, champion_id):
+    data = self.champions["data"]
+    champion_name = None
+    for id in data.keys():
+      if (int(data[id]["key"]) == champion_id):
+        champion_name = id
+        break
+    
+    if champion_name is None:
+      raise Exception("Invalid champion id")
+
+    if self.champion_icons[champion_name] is None:
+      req = requests.get(f"{self.url}/cdn/{self.latest_version}/img/champion/{champion_name}.png", stream=True)
+      if req.status_code != 200:
+        raise Exception("Failed to get champion icon from DataDragon")
+      self.champion_icons[champion_name] = req.content
+
+    return self.icons[champion_name]
