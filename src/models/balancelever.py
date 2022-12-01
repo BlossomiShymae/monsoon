@@ -15,7 +15,7 @@ class BalanceLever:
   def _format_modifier(self) -> str:
     percentage = round((self.modifier - 1.00) * 100)
     sign = "+" if percentage >= 0 else ""
-    return f"{sign} {percentage}"
+    return f"{sign}{percentage}"
   
   def format(self) -> str:
     """Return a formatted string of a balance lever. ("Dmg Dealt: -20%")
