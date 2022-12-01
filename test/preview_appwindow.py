@@ -8,8 +8,10 @@ from services import WorkerService
 from views import AppWindowView
 from viewmodels import AppWindowViewModel
 from PySide6 import QtWidgets
+import qdarktheme
 
 app = QtWidgets.QApplication()
+app.setStyleSheet(qdarktheme.load_stylesheet())
 worker_service = WorkerService()
 viewmodel = AppWindowViewModel(worker_service=worker_service)
 view = AppWindowView(app_window_viewmodel=viewmodel)
