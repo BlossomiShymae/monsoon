@@ -9,6 +9,7 @@ class DynamicBalanceModel:
   """
   champion_name: str
   balance_levers: List[BalanceLever]
+  champion_icon: bytes
 
   def _format_champion_name(self) -> str:
     return f"{self.champion_name}"
