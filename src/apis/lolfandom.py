@@ -82,7 +82,10 @@ class LolFandom():
         DynamicBalanceModel: Represents the dynamic balance changes for a 
         champion in ARAM from Module:ChampionData.
     """
-    return self.__dynamic_balances_by_key.get(name)
+    value = self.__dynamic_balances_by_key.get(name)
+    if not value:
+      value = DynamicBalanceModel(name, [])
+    return value
   
   def _fetch_championdata_module(self) -> str:
     """Fetch Module:ChampionData from LoL Fandom that contains ARAM balance
