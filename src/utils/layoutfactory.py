@@ -66,6 +66,12 @@ class LayoutFactory():
       return ProxyWidget(widget, layout)
     
     @staticmethod
+    def create_grid_proxy() -> ProxyWidget:
+      (widget, layout) = LayoutFactory.create_grid()
+      layout.setContentsMargins(0,0,0,0)
+      return ProxyWidget(widget, layout)
+    
+    @staticmethod
     def create_size_policy(stretch: StretchTypes, factor: int) -> QtWidgets.QSizePolicy:
       sp = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
       if stretch is StretchTypes.HORIZONTAL:
