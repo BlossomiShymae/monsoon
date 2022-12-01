@@ -56,11 +56,13 @@ class LayoutFactory():
     @staticmethod
     def create_horizontal_proxy() -> ProxyWidget:
       (widget, layout) = LayoutFactory.create_horizontal()
+      layout.setContentsMargins(0,0,0,0)
       return ProxyWidget(widget, layout)
     
     @staticmethod
     def create_vertical_proxy() -> ProxyWidget:
       (widget, layout) = LayoutFactory.create_vertical()
+      layout.setContentsMargins(0,0,0,0)
       return ProxyWidget(widget, layout)
     
     @staticmethod
