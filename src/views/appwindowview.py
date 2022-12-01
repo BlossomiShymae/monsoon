@@ -32,20 +32,46 @@ class AppWindowView(QtWidgets.QMainWindow):
     self.title_bar.layout.addWidget(QImage(self.viewmodel.wordmark_qpixmap))
     self.title_bar.widget.setMaximumHeight(64)
 
-    self.team_champions_panel.layout.addWidget(QtWidgets.QLabel("Team Champions"))
+    self.team_champions_panel_label = QtWidgets.QLabel("Team Champions")
+    self.team_champions_panel_label.setStyleSheet("""
+    QWidget {
+      font-size: 15pt;
+      font-weight: 600;
+    }
+    """)
+    self.team_champions_panel.layout.addWidget(self.team_champions_panel_label)
     self.team_champions_list_box_widgets: QChampionTemplate = []
     for i in range(5):
       widget = QChampionTemplate()
+      widget.set_champion_image_text_stylesheet("""
+      QWidget {
+        font-size: 13pt;
+        font-weight: light;
+      }
+      """)
       self.team_champions_list_box.layout.addWidget(widget)
       self.team_champions_list_box_widgets.append(widget)
     self.team_champions_list_box.widget.setSizePolicy(LayoutFactory.create_size_policy(StretchTypes.VERTICAL, 3))
     self.team_champions_panel.layout.addWidget(self.team_champions_list_box.widget)
 
-    self.available_champions_panel.layout.addWidget(QtWidgets.QLabel("Available Champions"))
+    self.available_champions_panel_label = QtWidgets.QLabel("Available Champions")
+    self.available_champions_panel_label.setStyleSheet("""
+    QWidget {
+      font-size: 15pt;
+      font-weight: 600;
+    }
+    """)
+    self.available_champions_panel.layout.addWidget(self.available_champions_panel_label)
     self.available_champions_list_box_widgets: QChampionTemplate = []
     for i in range(2):
       for j in range(5):
         widget = QChampionTemplate()
+        widget.set_champion_image_text_stylesheet("""
+        QWidget {
+          font-size: 13pt;
+          font-weight: light;
+        }
+        """)
         self.available_champions_list_box.layout.addWidget(widget, j+1, i+1)
         self.available_champions_list_box_widgets.append(widget)
     self.available_champions_list_box.widget.setSizePolicy(LayoutFactory.create_size_policy(StretchTypes.VERTICAL, 1))

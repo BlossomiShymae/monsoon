@@ -1,5 +1,5 @@
 from typing import Optional
-from utils import LayoutFactory
+from utils import LayoutFactory, StretchTypes
 from views import QImage
 
 from PySide6 import QtWidgets, QtCore, QtGui
@@ -16,12 +16,16 @@ class QChampionTemplate(QtWidgets.QWidget):
     self.champion_textblock_vbox = LayoutFactory.create_vertical_proxy()
 
     self.champion_image = QImage()
+    self.champion_image_box = LayoutFactory.create_horizontal_proxy()
+    self.champion_image_box.widget.setMaximumHeight(100)
+    self.champion_image_box.widget.setMaximumWidth(100)
+    self.champion_image_box.layout.addWidget(self.champion_image)
     self.champion_image_label = QtWidgets.QLabel("")
-    self.champion_image_vbox.widget.setMaximumWidth(200)
     self.champion_image_vbox.layout.addWidget(self.champion_image_label)
-    self.champion_image_vbox.layout.addWidget(self.champion_image)
+    self.champion_image_vbox.layout.addWidget(self.champion_image_box.widget)
 
     self.champion_textblock_label = QtWidgets.QLabel("")
+    self.champion_textblock_vbox.widget.setSizePolicy(LayoutFactory.create_size_policy(StretchTypes.HORIZONTAL, 1))
     self.champion_textblock_vbox.layout.addWidget(self.champion_textblock_label)
 
     self.champion_hbox.layout.addWidget(self.champion_image_vbox.widget)
@@ -39,6 +43,12 @@ class QChampionTemplate(QtWidgets.QWidget):
 
   def set_champion_image_text(self, text: str) -> None:
     self.champion_image_label.setText(text)
+
+  def set_champion_image_text_stylesheet(self, stylesheet: str) -> None:
+    self.champion_image_label.setStyleSheet(stylesheet)
   
   def set_champion_text(self, text: str) -> None:
     self.champion_textblock_label.setText(text)
+  
+  def set_champion_text_stylesheet(self, stylesheet: str) -> None:
+    self.champion_textblock_label.setStyleSheet(stylesheet)
