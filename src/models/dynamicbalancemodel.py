@@ -33,4 +33,5 @@ class DynamicBalanceModel:
         List[str]
     """ 
     balance_lever_strings = [x.format() for x in self.balance_levers]
-    return balance_lever_strings.sort()
+    balance_lever_strings.sort()
+    return balance_lever_strings
