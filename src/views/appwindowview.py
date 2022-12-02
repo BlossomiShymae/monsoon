@@ -108,7 +108,7 @@ class AppWindowView(QtWidgets.QMainWindow):
         pixmap.loadFromData(balance.champion_icon)
         widget.set_champion_image(pixmap)
       widget.set_champion_image_text(balance.champion_name)
-      widget.set_champion_text(balance.format())
+      widget.set_champion_modifiers_data_source(balance.format_balance_levers())
     
     for (i, x) in enumerate(self.viewmodel.team_champion_dynamic_balances):
       balance: DynamicBalanceModel = x
@@ -118,5 +118,5 @@ class AppWindowView(QtWidgets.QMainWindow):
         pixmap.loadFromData(balance.champion_icon)
         widget.set_champion_image(pixmap)
       widget.set_champion_image_text(balance.champion_name)
-      widget.set_champion_text(balance.format())
+      widget.set_champion_modifiers_data_source(balance.format_balance_levers())
       
