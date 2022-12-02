@@ -88,6 +88,7 @@ class AppWindowView(QtWidgets.QMainWindow):
     self.viewmodel.property_changed += self.on_property_changed
 
     # Set window properties
+    self.setMaximumSize(self.viewmodel.width, self.viewmodel.height)
     self.resize(self.viewmodel.width, self.viewmodel.height)
     self.setWindowTitle(self.viewmodel.window_title)
     self.setCentralWidget(self.vbox.widget)
