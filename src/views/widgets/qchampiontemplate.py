@@ -1,5 +1,10 @@
 from typing import List
-from utils import LayoutFactory, StretchTypes, clear_qlayout
+from utils import (
+  QtContainerFactory,
+  QtContainerLayouts,
+  QtHelpers,
+  QtStretches
+)
 from views import QImage
 
 from PySide6 import QtWidgets, QtCore, QtGui
@@ -11,20 +16,21 @@ class QChampionTemplate(QtWidgets.QWidget):
   ) -> None:
     super().__init__()
 
-    self.champion_hbox = LayoutFactory.create_horizontal_proxy()
-    self.champion_image_vbox = LayoutFactory.create_vertical_proxy()
-    self.champion_content_hbox = LayoutFactory.create_horizontal_proxy()
-    self.champion_modifiers_vbox = LayoutFactory.create_vertical_proxy()
-    self.champion_modifiers_list_box = LayoutFactory.create_vertical_proxy()
+    self.champion_wrapper = QtContainerFactory.create(QtContainerLayouts.STACKED)
+    self.champion_hbox = QtContainerFactory.create(QtContainerLayouts.HORIZONTAL)
+    self.champion_image_vbox = QtContainerFactory.create(QtContainerLayouts.VERTICAL)
+    self.champion_content_hbox = QtContainerFactory.create(QtContainerLayouts.HORIZONTAL)
+    self.champion_modifiers_vbox = QtContainerFactory.create(QtContainerLayouts.VERTICAL)
+    self.champion_modifiers_list_box = QtContainerFactory.create(QtContainerLayouts.VERTICAL)
 
     self.champion_image = QImage()
-    self.champion_image_box = LayoutFactory.create_horizontal_proxy()
-    self.champion_image_box.widget.setMaximumHeight(80)
-    self.champion_image_box.widget.setMaximumWidth(80)
+    self.champion_image_box = QtContainerFactory.create(QtContainerLayouts.HORIZONTAL)
+    self.champion_image_box.container.setMaximumHeight(80)
+    self.champion_image_box.container.setMaximumWidth(80)
     self.champion_image_box.layout.addWidget(self.champion_image)
     self.champion_image_label = QtWidgets.QLabel("")
     self.champion_image_vbox.layout.setAlignment(QtCore.Qt.AlignTop)
-    self.champion_image_vbox.layout.addWidget(self.champion_image_box.widget)
+    self.champion_image_vbox.layout.addWidget(self.champion_image_box.container)
     self.champion_image_vbox.layout.addWidget(self.champion_image_label)
 
     self.champion_modifiers_label = QtWidgets.QLabel("Modifiers")
@@ -36,22 +42,24 @@ class QChampionTemplate(QtWidgets.QWidget):
     """)
     self.champion_modifiers_vbox.layout.setAlignment(QtCore.Qt.AlignTop)
     self.champion_modifiers_vbox.layout.addWidget(self.champion_modifiers_label)
-    self.champion_modifiers_vbox.layout.addWidget(self.champion_modifiers_list_box.widget)
-    self.champion_content_hbox.widget.setSizePolicy(
-      LayoutFactory.create_size_policy(StretchTypes.HORIZONTAL, 1)
+    self.champion_modifiers_vbox.layout.addWidget(self.champion_modifiers_list_box.container)
+    self.champion_content_hbox.container.setSizePolicy(
+      QtHelpers.create_size_policy(QtStretches.HORIZONTAL, 1)
     )
     self.champion_content_hbox.layout.setAlignment(QtCore.Qt.AlignTop)
-    self.champion_content_hbox.layout.addWidget(self.champion_modifiers_vbox.widget)
+    self.champion_content_hbox.layout.addWidget(self.champion_modifiers_vbox.container)
 
-    self.champion_hbox.layout.addWidget(self.champion_image_vbox.widget)
-    self.champion_hbox.layout.addWidget(self.champion_content_hbox.widget)
+    self.champion_hbox.layout.addWidget(self.champion_image_vbox.container)
+    self.champion_hbox.layout.addWidget(self.champion_content_hbox.container)
 
-    self.setLayout(self.champion_hbox.layout)
+    self.champion_hbox.layout.setContentsMargins(8,8,8,8)
+    self.champion_wrapper.layout.addWidget(self.champion_hbox.container)
+    self.setLayout(self.champion_wrapper.layout)
     self.setStyleSheet("background-color: #103038;")
 
   def clear_contents(self) -> None:
     self.set_champion_image_text("")
-    clear_qlayout(self.champion_modifiers_list_box.layout)
+    QtHelpers.clear_qlayout(self.champion_modifiers_list_box.layout)
     self.champion_image.clear()
   
   def set_champion_image(self, pixmap: QtGui.QPixmap) -> None:
