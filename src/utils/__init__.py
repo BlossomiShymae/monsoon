@@ -41,13 +41,5 @@ def milliseconds_from_fps(fps: int) -> int:
   """
   return (1 / fps) * 1000
 
-def clear_qlayout(layout: QtWidgets.QLayout):
-  while layout.count():
-      child = layout.takeAt(0)
-      child_widget = child.widget()
-      if child_widget:
-        child_widget.setParent(None)
-        child_widget.deleteLater()
-
 
 

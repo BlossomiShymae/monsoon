@@ -4,23 +4,26 @@ from PySide6 import QtWidgets
 class QtWidgetContainer():
   def __init__(
     self, 
-    container_widget: QtWidgets.QWidget, 
+    container: QtWidgets.QWidget, 
     layout: QtWidgets.QLayout
   ) -> None:
-    self.container_widget = container_widget
+    self.container = container
     self.layout = layout
 
 class QtContainerLayouts(Enum):
   GRID = 0
   VERTICAL = 1
   HORIZONTAL = 2
+  STACKED = 3
   
 class QtContainerFactory():
   @staticmethod
   def create(
     layout_type: QtContainerLayouts, 
-    container: QtWidgets.QWidget = QtWidgets.QFrame()
+    container: QtWidgets.QWidget = None
   ) -> QtWidgetContainer:
+    if container is None:
+      container = QtWidgets.QFrame()
     layout = None
     if layout_type is QtContainerLayouts.GRID:
       layout = QtWidgets.QGridLayout()
@@ -28,6 +31,8 @@ class QtContainerFactory():
       layout = QtWidgets.QHBoxLayout()
     elif layout_type is QtContainerLayouts.VERTICAL:
       layout = QtWidgets.QVBoxLayout()
+    elif layout_type is QtContainerLayouts.STACKED:
+      layout = QtWidgets.QStackedLayout()
     else:
       raise Exception("Invalid container layout enum")
     
