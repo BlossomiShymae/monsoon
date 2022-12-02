@@ -49,6 +49,7 @@ class AppWindowView(QtWidgets.QMainWindow):
         font-weight: light;
       }
       """)
+      widget.setContentsMargins(16,0,16,4)
       self.team_champions_list_box.layout.addWidget(widget)
       self.team_champions_list_box_widgets.append(widget)
     self.team_champions_list_box.widget.setSizePolicy(LayoutFactory.create_size_policy(StretchTypes.VERTICAL, 3))
@@ -72,15 +73,20 @@ class AppWindowView(QtWidgets.QMainWindow):
           font-weight: light;
         }
         """)
+        widget.setContentsMargins(16,0,16,4)
         self.available_champions_list_box.layout.addWidget(widget, j+1, i+1)
         self.available_champions_list_box_widgets.append(widget)
     self.available_champions_list_box.widget.setSizePolicy(LayoutFactory.create_size_policy(StretchTypes.VERTICAL, 1))
     self.available_champions_panel.layout.addWidget(self.available_champions_list_box.widget)
 
     self.team_champions_panel.widget.setSizePolicy(LayoutFactory.create_size_policy(StretchTypes.HORIZONTAL, 1))
+    self.team_champions_panel.layout.setContentsMargins(8,0,8,0)
     self.content_area.layout.addWidget(self.team_champions_panel.widget)
     self.available_champions_panel.widget.setSizePolicy(LayoutFactory.create_size_policy(StretchTypes.HORIZONTAL, 2))
+    self.available_champions_panel.layout.setContentsMargins(8,0,8,0)
     self.content_area.layout.addWidget(self.available_champions_panel.widget)
+    self.content_area.layout.setContentsMargins(8,0,8,0)
+    self.vbox.layout.setContentsMargins(16,0,16,16)
     self.vbox.layout.addWidget(self.title_bar.widget)
     self.vbox.layout.addWidget(self.content_area.widget)
 
@@ -88,7 +94,6 @@ class AppWindowView(QtWidgets.QMainWindow):
     self.viewmodel.property_changed += self.on_property_changed
 
     # Set window properties
-    self.setMaximumSize(self.viewmodel.width, self.viewmodel.height)
     self.resize(self.viewmodel.width, self.viewmodel.height)
     self.setWindowTitle(self.viewmodel.window_title)
     self.setCentralWidget(self.vbox.widget)
