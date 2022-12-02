@@ -23,7 +23,6 @@ class AppWindowViewModel(object):
     self.height = Monsoon.HEIGHT.value
     self.width = Monsoon.WIDTH.value
     self.wordmark_qpixmap = b64_to_qpixmap(Embedded.wordmark())
-    self.wordmark_qpixmap.scaled(self.wordmark_qpixmap.size(), QtCore.Qt.KeepAspectRatio)
 
     self._available_champion_dynamic_balances = []
     self._team_champion_dynamic_balances = []
