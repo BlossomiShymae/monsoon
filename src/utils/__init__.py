@@ -1,7 +1,7 @@
 from utils.layoutfactory import LayoutFactory, StretchTypes
 from utils.eventhandler import EventHandler
 
-from PySide6 import QtCore, QtGui
+from PySide6 import QtCore, QtGui, QtWidgets
 
 
 class Timer():
@@ -38,6 +38,14 @@ def milliseconds_from_fps(fps: int) -> int:
       int: Milliseconds
   """
   return (1 / fps) * 1000
+
+def clear_qlayout(layout: QtWidgets.QLayout):
+  while layout.count():
+      child = layout.takeAt(0)
+      child_widget = child.widget()
+      if child_widget:
+        child_widget.setParent(None)
+        child_widget.deleteLater()
 
 
 
