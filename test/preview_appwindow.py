@@ -4,7 +4,7 @@ sys.path.append(os.path.abspath("./src/"))
 
 from apis import LolFandom, DataDragon
 from models import DynamicBalanceModel
-from services import WorkerService
+from services import WorkerService, ApiService
 from views import AppWindowView
 from viewmodels import AppWindowViewModel
 from PySide6 import QtWidgets
@@ -13,7 +13,8 @@ import qdarktheme
 app = QtWidgets.QApplication()
 app.setStyleSheet(qdarktheme.load_stylesheet())
 worker_service = WorkerService()
-viewmodel = AppWindowViewModel(worker_service=worker_service)
+api_service = ApiService()
+viewmodel = AppWindowViewModel(worker_service=worker_service, api_service=api_service)
 view = AppWindowView(app_window_viewmodel=viewmodel)
 lf_api = LolFandom()
 dd_api = DataDragon()
