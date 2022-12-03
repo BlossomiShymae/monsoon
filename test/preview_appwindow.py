@@ -2,11 +2,11 @@ import os
 import sys
 sys.path.append(os.path.abspath("./src/"))
 
-from apis import LolFandom, DataDragon
-from models import DynamicBalanceModel
-from services import WorkerService, ApiService
-from views import AppWindowView
-from viewmodels import AppWindowViewModel
+from src.apis import LolFandom, DataDragon
+from src.models import DynamicBalanceModel
+from src.services import WorkerService, ApiService
+from src.views import AppWindowView
+from src.viewmodels import AppWindowViewModel
 from PySide6 import QtWidgets
 import qdarktheme
 

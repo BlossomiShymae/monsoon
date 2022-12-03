@@ -1,5 +1,5 @@
 import pytest
-from apis import DataDragon, LolFandom
+from src.apis import DataDragon, LolFandom
 
 
 class TestApis():
