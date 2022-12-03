@@ -15,3 +15,7 @@ class Monsoon:
 class Workers(Enum):
     LOCKFILE_WATCHER = 0
     LCU_EVENT_PROCESSOR = 1
+
+
+class SettingsSchema:
+    DEFAULT = ("", "")

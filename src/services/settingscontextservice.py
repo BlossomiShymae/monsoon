@@ -1,10 +1,6 @@
 from PySide6 import QtCore
 
 
-class SettingsSchema:
-    DEFAULT = ("", "")
-
-
 class SettingsContextService:
     def __init__(self) -> None:
         self.settings = QtCore.QSettings("MissUwuieTime", "Monsoon")
