@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
   from services import ExecutorService, GraphicalWorkerService
   from views import AppWindowView, SystemTray
-from constants import Stylesheet, Embedded
+from constants import Embedded
 from utils import b64_to_qicon
 
 from dependency_injector.wiring import Provide, inject
