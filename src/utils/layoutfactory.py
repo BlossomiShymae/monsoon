@@ -1,5 +1,6 @@
-from typing import Tuple
 from enum import Enum
+from typing import Tuple
+
 from PySide6 import QtWidgets, QtGui
 
 

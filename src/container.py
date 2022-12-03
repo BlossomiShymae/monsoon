@@ -1,13 +1,14 @@
+from PySide6 import QtWidgets
+from dependency_injector import containers, providers
+
 from services import (
     ApplicationHostService,
     WorkerService,
     ApiService,
     SettingsContextService
 )
-from views import AboutWindowView, SystemTray, AppWindowView
 from viewmodels import AboutWindowViewModel, SystemTrayViewModel, AppWindowViewModel
-from dependency_injector import containers, providers
-from PySide6 import QtWidgets
+from views import AboutWindowView, SystemTray, AppWindowView
 
 
 class Container(containers.DeclarativeContainer):

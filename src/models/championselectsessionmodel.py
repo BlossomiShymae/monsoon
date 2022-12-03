@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import List
+
 from lcu_driver.events.responses import WebsocketEventResponse
 
 

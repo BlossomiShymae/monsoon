@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING, Dict
 
 if TYPE_CHECKING:
@@ -16,7 +17,6 @@ from watchdog.events import (
     EVENT_TYPE_CREATED,
     EVENT_TYPE_DELETED
 )
-from enum import Enum
 import time
 import asyncio
 import logging

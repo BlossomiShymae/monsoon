@@ -1,4 +1,7 @@
 from typing import List
+
+from PySide6 import QtWidgets, QtCore, QtGui
+
 from src.utils import (
     QtContainerFactory,
     QtContainerLayouts,
@@ -6,8 +9,6 @@ from src.utils import (
     QtStretches
 )
 from src.views import QImage
-
-from PySide6 import QtWidgets, QtCore, QtGui
 
 
 class QChampionTemplate(QtWidgets.QWidget):

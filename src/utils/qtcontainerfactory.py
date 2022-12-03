@@ -1,4 +1,5 @@
 from enum import Enum
+
 from PySide6 import QtWidgets
 
 

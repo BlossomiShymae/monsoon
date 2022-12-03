@@ -1,6 +1,6 @@
+import lupa
 import requests
 from bs4 import BeautifulSoup
-import lupa
 from lupa import LuaRuntime
 
 from src.models import DynamicBalanceModel, BalanceLever
