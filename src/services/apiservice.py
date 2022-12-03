@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
   pass
 
-from apis import DataDragon, LolFandom
+from src.apis import DataDragon, LolFandom
 
 
 class ApiService():

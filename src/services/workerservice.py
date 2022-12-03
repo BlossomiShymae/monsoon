@@ -2,8 +2,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Dict
 if TYPE_CHECKING:
   pass
-from utils import EventHandler
-from models import ChampionSelectSessionModel
+from src.utils import EventHandler
+from src.models import ChampionSelectSessionModel
+from src.constants import Workers
 
 from PySide6.QtCore import QThread, Signal, QObject
 from lcu_driver import Connector
@@ -20,10 +21,6 @@ import asyncio
 import logging
 
 
-class Workers(Enum):
-  LOCKFILE_WATCHER = 0,
-  LCU_EVENT_PROCESSOR = 1
-
 class CommunicationPort(QObject):
   data_signal = Signal(ChampionSelectSessionModel)
   def __init__(self):
@@ -39,6 +36,9 @@ class WorkerService():
     self.workers_dictionary[Workers.LCU_EVENT_PROCESSOR] = LcuEventProcessorWorker()
   
   def get(self, key: Workers) -> QThread:
+    print(key)
+    print(self.workers_dictionary.keys())
+    print(self.workers_dictionary.values())
     value = self.workers_dictionary.get(key)
     if value is None:
       raise Exception("Worker does not exist in worker service. Did you forget to include it? o.o")

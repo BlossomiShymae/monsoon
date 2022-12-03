@@ -1,8 +1,8 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-  from views import AppWindowView, SystemTray
-from utils import ResourceHelper
+  from src.views import AppWindowView, SystemTray
+from src.utils import ResourceHelper
 
 from dependency_injector.wiring import Provide, inject
 from PySide6 import QtWidgets, QtGui

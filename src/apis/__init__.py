@@ -1,2 +1,2 @@
-from apis.datadragon import DataDragon
-from apis.lolfandom import LolFandom
+from .datadragon import *
+from .lolfandom import *

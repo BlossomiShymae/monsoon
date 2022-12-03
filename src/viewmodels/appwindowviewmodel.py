@@ -1,12 +1,11 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-  from services import WorkerService, ApiService
+  from src.services import WorkerService, ApiService
 
-from constants import Monsoon
-from models import ChampionSelectSessionModel
-from services import Workers
-from utils import EventHandler, ResourceHelper
+from src.constants import Monsoon, Workers
+from src.models import ChampionSelectSessionModel
+from src.utils import EventHandler, ResourceHelper
 
 from PySide6 import QtCore, QtGui
 from dependency_injector.wiring import Provide, inject

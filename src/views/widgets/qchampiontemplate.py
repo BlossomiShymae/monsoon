@@ -1,11 +1,11 @@
 from typing import List
-from utils import (
+from src.utils import (
   QtContainerFactory,
   QtContainerLayouts,
   QtHelpers,
   QtStretches
 )
-from views import QImage
+from src.views import QImage
 
 from PySide6 import QtWidgets, QtCore, QtGui
 

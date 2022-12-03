@@ -1,15 +1,15 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING, List
 if TYPE_CHECKING:
-  from viewmodels import AppWindowViewModel
-  from models import DynamicBalanceModel
-from utils import (
+  from src.viewmodels import AppWindowViewModel
+  from src.models import DynamicBalanceModel
+from src.utils import (
   QtContainerFactory,
   QtContainerLayouts,
   QtHelpers,
   QtStretches
 )
-from views import QImage, QChampionTemplate
+from src.views import QImage, QChampionTemplate
 
 from dependency_injector.wiring import Provide, inject
 from PySide6 import QtWidgets, QtGui

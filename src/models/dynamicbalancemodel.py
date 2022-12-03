@@ -1,4 +1,5 @@
-from models import BalanceLever
+from src.models import BalanceLever
+
 from typing import List, Optional
 from dataclasses import dataclass
 

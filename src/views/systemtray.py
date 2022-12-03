@@ -1,8 +1,8 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-  from views import AboutWindowView
-  from viewmodels import SystemTrayViewModel
+  from src.views import AboutWindowView
+  from src.viewmodels import SystemTrayViewModel
 
 from PySide6 import QtWidgets
 from dependency_injector.wiring import Provide, inject

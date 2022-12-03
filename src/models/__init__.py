@@ -1,3 +1,3 @@
-from models.balancelever import BalanceLever
-from models.dynamicbalancemodel import DynamicBalanceModel
-from models.championselectsessionmodel import ChampionSelectSessionModel
+from .balancelever import *
+from .championselectsessionmodel import *
+from .dynamicbalancemodel import *

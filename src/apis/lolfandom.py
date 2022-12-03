@@ -2,7 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 import lupa
 from lupa import LuaRuntime
-from models import DynamicBalanceModel, BalanceLever
+
+from src.models import DynamicBalanceModel, BalanceLever
 
 
 class LolFandom():

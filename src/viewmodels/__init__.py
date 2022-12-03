@@ -1,3 +1,3 @@
-from viewmodels.aboutwindowviewmodel import AboutWindowViewModel
-from viewmodels.systemtrayviewmodel import SystemTrayViewModel
-from viewmodels.appwindowviewmodel import AppWindowViewModel
+from .aboutwindowviewmodel import *
+from .appwindowviewmodel import *
+from .systemtrayviewmodel import *
