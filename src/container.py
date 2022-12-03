@@ -1,12 +1,10 @@
-from controllers import LeagueClientController, EventDataController
 from services import (
-  ExecutorService, 
   ApplicationHostService, 
-  GraphicalWorkerService,
-  WorkerService
+  WorkerService,
+  ApiService
 )
-from views import MainWindowView, AboutWindowView, SystemTray, AppWindowView
-from viewmodels import MainWindowViewModel, AboutWindowViewModel, SystemTrayViewModel, AppWindowViewModel
+from views import AboutWindowView, SystemTray, AppWindowView
+from viewmodels import AboutWindowViewModel, SystemTrayViewModel, AppWindowViewModel
 from dependency_injector import containers, providers
 from PySide6 import QtWidgets
 
@@ -16,15 +14,10 @@ class Container(containers.DeclarativeContainer):
   injection.
   """
 
-  # Controllers
-  league_client_controller = providers.ThreadSafeSingleton(LeagueClientController)
-  event_data_controller = providers.ThreadSafeSingleton(EventDataController)
-
   # Services
-  executor_service = providers.ThreadSafeSingleton(ExecutorService)
+  api_service = providers.ThreadSafeSingleton(ApiService)
   application_host_service = providers.ThreadSafeSingleton(ApplicationHostService)
   worker_service = providers.ThreadSafeSingleton(WorkerService)
-  graphical_worker_service = providers.ThreadSafeSingleton(GraphicalWorkerService)
 
   # Views and ViewModels
   application = providers.Singleton(QtWidgets.QApplication)
