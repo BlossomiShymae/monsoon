@@ -1,7 +1,6 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-  from services import ExecutorService
   from views import AppWindowView, SystemTray
 from constants import Embedded
 from utils import b64_to_qicon
@@ -50,7 +49,7 @@ class ApplicationHostService():
     os._exit(0)
   
   def on_exception(self):
-    """Stops executor and gracefully prepare to exit program.
+    """Prepare to gracefully exit program.
     """
     msg = QtWidgets.QMessageBox()
     msg.setIcon(QtWidgets.QMessageBox.Critical)
