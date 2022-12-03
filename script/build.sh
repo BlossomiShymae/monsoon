@@ -18,8 +18,14 @@ setup_executable_names() {
 
 # Build the application
 build() {
-    pyinstaller src/monsoon.py --onefile --hidden-import "win32api" --icon "monsoon.ico" -n "$debug_exe_name"
-    pyinstaller src/monsoon.py --onefile --noconsole --hidden-import "win32api" --icon "monsoon.ico" -n "$exe_name"
+    pyinstaller src/monsoon.py --add-data "resources/images/*;resources/images" \
+    --onefile --hidden-import "win32api" --hidden-import "dependency_injector.errors" \
+    --hidden-import "six" --icon "monsoon.ico" -n "$debug_exe_name"
+    
+    pyinstaller src/monsoon.py --add-data "resources/images/*;resources/images" \
+    --onefile --noconsole --hidden-import "win32api" \
+    --hidden-import "dependency_injector.errors" --hidden-import "six" \
+    --icon "monsoon.ico" -n "$exe_name"
 }
 
 parse_version
