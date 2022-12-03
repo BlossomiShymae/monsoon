@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class Monsoon(Enum):
   TITLE = "Monsoon"
   VERSION = "1.2.0"

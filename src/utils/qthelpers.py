@@ -1,6 +1,7 @@
 from enum import Enum
 from PySide6 import QtWidgets
 
+
 class QtStretches(Enum):
   HORIZONTAL = 0
   VERTICAL = 1

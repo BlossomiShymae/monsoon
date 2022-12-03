@@ -1,3 +1,5 @@
+
+
 class Embedded():
   @staticmethod
   def icon():

@@ -4,6 +4,7 @@ import lupa
 from lupa import LuaRuntime
 from models import DynamicBalanceModel, BalanceLever
 
+
 class LolFandom():
   def __init__(self):
     self.url = "https://leagueoflegends.fandom.com"

@@ -1,5 +1,6 @@
 from PySide6 import QtWidgets, QtCore, QtGui
 
+
 class QImage(QtWidgets.QLabel):
   def __init__(self, pixmap: QtGui.QPixmap = None, parent=None):
     super().__init__(parent)

@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+
 @dataclass
 class BalanceLever:
   """Data class for representing an ARAM balance lever.

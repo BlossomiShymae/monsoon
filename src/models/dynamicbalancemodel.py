@@ -2,6 +2,7 @@ from models import BalanceLever
 from typing import List, Optional
 from dataclasses import dataclass
 
+
 @dataclass
 class DynamicBalanceModel:
   """Data class that represents balance levers for a champion. The amount of

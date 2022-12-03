@@ -1,5 +1,6 @@
 from PySide6 import QtCore
 
+
 class SettingsSchema():
   DEFAULT = ("", "")
 

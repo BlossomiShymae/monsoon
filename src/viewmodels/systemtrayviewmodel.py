@@ -5,6 +5,7 @@ if TYPE_CHECKING:
 from constants import Embedded, Monsoon
 from utils import EventHandler, b64_to_qicon
 
+
 class SystemTrayViewModel():
   def __init__(self) -> None:
     self.icon = b64_to_qicon(Embedded.icon())

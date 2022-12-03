@@ -11,6 +11,7 @@ from dependency_injector.wiring import Provide, inject
 import os
 import webbrowser
 
+
 class SystemTray(QtWidgets.QSystemTrayIcon):
   @inject
   def __init__(

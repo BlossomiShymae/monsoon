@@ -1,6 +1,7 @@
 from enum import Enum
 from PySide6 import QtWidgets
 
+
 class QtWidgetContainer():
   def __init__(
     self, 

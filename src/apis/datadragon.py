@@ -1,5 +1,6 @@
 import requests
 
+
 class DataDragon():
   def __init__(self):
     self.url = "https://ddragon.leagueoflegends.com"

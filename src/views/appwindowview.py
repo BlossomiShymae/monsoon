@@ -14,6 +14,7 @@ from views import QImage, QChampionTemplate
 from dependency_injector.wiring import Provide, inject
 from PySide6 import QtWidgets, QtCore, QtGui
 
+
 class AppWindowView(QtWidgets.QMainWindow):
   @inject
   def __init__(

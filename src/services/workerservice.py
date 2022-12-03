@@ -15,11 +15,11 @@ from watchdog.events import (
   EVENT_TYPE_CREATED, 
   EVENT_TYPE_DELETED
 )
-
 from enum import Enum
 import time
 import asyncio
 import logging
+
 
 class Workers(Enum):
   LOCKFILE_WATCHER = 0,
