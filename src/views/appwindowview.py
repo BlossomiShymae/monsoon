@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 if TYPE_CHECKING:
   from viewmodels import AppWindowViewModel
   from models import DynamicBalanceModel
@@ -44,7 +44,7 @@ class AppWindowView(QtWidgets.QMainWindow):
     }
     """)
     self.team_champions_panel.layout.addWidget(self.team_champions_panel_label)
-    self.team_champions_list_box_widgets: QChampionTemplate = []
+    self.team_champions_list_box_widgets: List[QChampionTemplate] = []
     for i in range(5):
       widget = QChampionTemplate()
       widget.set_champion_image_text_stylesheet("""
@@ -67,7 +67,7 @@ class AppWindowView(QtWidgets.QMainWindow):
     }
     """)
     self.available_champions_panel.layout.addWidget(self.available_champions_panel_label)
-    self.available_champions_list_box_widgets: QChampionTemplate = []
+    self.available_champions_list_box_widgets: List[QChampionTemplate] = []
     for i in range(2):
       for j in range(5):
         widget = QChampionTemplate()
@@ -111,6 +111,8 @@ class AppWindowView(QtWidgets.QMainWindow):
       widget.clear_contents()
     
     for (i, x) in enumerate(self.viewmodel.available_champion_dynamic_balances):
+      if i > len(self.available_champions_list_box_widgets) - 1:
+        break
       balance: DynamicBalanceModel = x
       widget: QChampionTemplate = self.available_champions_list_box_widgets[i]
       if balance.champion_icon is not None:
@@ -121,6 +123,8 @@ class AppWindowView(QtWidgets.QMainWindow):
       widget.set_champion_modifiers_data_source(balance.format_balance_levers())
     
     for (i, x) in enumerate(self.viewmodel.team_champion_dynamic_balances):
+      if i > len(self.team_champions_list_box_widgets) - 1:
+        break
       balance: DynamicBalanceModel = x
       widget: QChampionTemplate = self.team_champions_list_box_widgets[i]
       if balance.champion_icon is not None:
