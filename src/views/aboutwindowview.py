@@ -28,7 +28,7 @@ class AboutWindowView(QtWidgets.QMainWindow):
 
     # Set header layout
     wordmark_label = QtWidgets.QLabel("")
-    wordmark_label.setPixmap(self.viewmodel.wordmark)
+    wordmark_label.setPixmap(self.viewmodel.wordmark_pixmap)
     self.header_layout.addWidget(wordmark_label);
     self.header_layout.setAlignment(QtCore.Qt.AlignCenter)
     self.vbox_layout.addWidget(self.header)

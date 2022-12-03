@@ -34,7 +34,7 @@ class AppWindowView(QtWidgets.QMainWindow):
     self.available_champions_panel = QtContainerFactory.create(QtContainerLayouts.VERTICAL)
     self.available_champions_list_box = QtContainerFactory.create(QtContainerLayouts.GRID)
 
-    self.title_bar.layout.addWidget(QImage(self.viewmodel.wordmark_qpixmap))
+    self.title_bar.layout.addWidget(QImage(self.viewmodel.wordmark_pixmap))
     self.title_bar.container.setMaximumHeight(64)
 
     self.team_champions_panel_label = QtWidgets.QLabel("Team Champions")

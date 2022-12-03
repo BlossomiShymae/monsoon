@@ -4,7 +4,6 @@ if TYPE_CHECKING:
   from views import AboutWindowView
   from viewmodels import SystemTrayViewModel
 from constants import Embedded, Monsoon
-from utils import b64_to_qicon
 
 from PySide6 import QtWidgets
 from dependency_injector.wiring import Provide, inject
@@ -23,7 +22,7 @@ class SystemTray(QtWidgets.QSystemTrayIcon):
     self.about_window_view = about_window_view
 
     # Setup system tray icon
-    self.setIcon(self.viewmodel.icon)
+    self.setIcon(self.viewmodel.icon_pixmap)
     self.setToolTip(self.viewmodel.tooltip)
 
     # Set context menu

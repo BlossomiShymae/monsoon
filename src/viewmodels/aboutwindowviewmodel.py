@@ -3,14 +3,17 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
   pass
 from constants import Embedded, Monsoon
-from utils import EventHandler, b64_to_qpixmap
+from utils import EventHandler, ResourceHelper
+
+from PySide6 import QtGui
 
 
 class AboutWindowViewModel():
   def __init__(self) -> None:
     self.title = f"About {Monsoon.TITLE.value}"
     self.object_name = "aboutView"
-    self.wordmark = b64_to_qpixmap(Embedded.wordmark())
+    self.wordmark_pixmap = QtGui.QPixmap()
+    self.wordmark_pixmap.loadFromData(ResourceHelper.get_resource_bytes("resources/images/wordmark.png"))
     self.labels = [
       f"Version {Monsoon.VERSION.value}",
       f"Created by {Monsoon.AUTHOR.value}",

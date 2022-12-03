@@ -3,12 +3,14 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
   pass
 from constants import Embedded, Monsoon
-from utils import EventHandler, b64_to_qicon
+from utils import EventHandler, ResourceHelper
 
+from PySide6 import QtGui
 
 class SystemTrayViewModel():
   def __init__(self) -> None:
-    self.icon = b64_to_qicon(Embedded.icon())
+    self.icon_pixmap = QtGui.QPixmap()
+    self.icon_pixmap.loadFromData(ResourceHelper.get_resource_bytes("resources/images/monsoon.ico"))
     self.tooltip = Monsoon.TITLE.value
     self.action_title = Monsoon.TITLE.value
     self.action_github = "GitHub"

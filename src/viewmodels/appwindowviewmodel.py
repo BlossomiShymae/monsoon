@@ -6,9 +6,9 @@ if TYPE_CHECKING:
 from constants import Embedded, Monsoon
 from models import DynamicBalanceModel, ChampionSelectSessionModel
 from services import Workers
-from utils import EventHandler, b64_to_qpixmap
+from utils import EventHandler, ResourceHelper
 
-from PySide6 import QtCore
+from PySide6 import QtCore, QtGui
 from dependency_injector.wiring import Provide, inject
 import logging
 
@@ -24,7 +24,8 @@ class AppWindowViewModel(object):
     self.window_title = Monsoon.TITLE.value
     self.height = Monsoon.HEIGHT.value
     self.width = Monsoon.WIDTH.value
-    self.wordmark_qpixmap = b64_to_qpixmap(Embedded.wordmark())
+    self.wordmark_pixmap = QtGui.QPixmap()
+    self.wordmark_pixmap.loadFromData(ResourceHelper.get_resource_bytes("resources/images/wordmark.png"))
 
     self._available_champion_dynamic_balances = []
     self._team_champion_dynamic_balances = []

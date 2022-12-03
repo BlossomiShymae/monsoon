@@ -3,10 +3,10 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
   from views import AppWindowView, SystemTray
 from constants import Embedded
-from utils import b64_to_qicon
+from utils import ResourceHelper
 
 from dependency_injector.wiring import Provide, inject
-from PySide6 import QtWidgets
+from PySide6 import QtWidgets, QtGui
 import os
 import traceback
 import qdarktheme
@@ -28,7 +28,9 @@ class ApplicationHostService():
     """Configure our main Qt application with settings applied.
     """
     self.application.setStyleSheet(qdarktheme.load_stylesheet())
-    self.application.setWindowIcon(b64_to_qicon(Embedded.icon()))
+    icon_pixmap = QtGui.QPixmap()
+    icon_pixmap.loadFromData(ResourceHelper.get_resource_bytes("resources/images/monsoon.ico"))
+    self.application.setWindowIcon(icon_pixmap)
 
   def start(self):
     """Starts our main application.
