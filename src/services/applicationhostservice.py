@@ -10,18 +10,17 @@ from dependency_injector.wiring import Provide, inject
 from PySide6 import QtWidgets
 import os
 import traceback
+import qdarktheme
 
 
 class ApplicationHostService():
   @inject
-  def __init__(self,
-   executor_service: ExecutorService = Provide["executor_service"],
-   graphical_worker_service: GraphicalWorkerService = Provide["graphical_worker_service"],
+  def __init__(
+   self,
    application: QtWidgets.QApplication = Provide["application"],
    system_tray: SystemTray = Provide["system_tray"],
-   app_window_view: AppWindowView = Provide["app_window_view"]) -> None:
-    self.executor_service = executor_service
-    self.graphical_worker_service = graphical_worker_service
+   app_window_view: AppWindowView = Provide["app_window_view"]
+  ) -> None:
     self.app_window_view = app_window_view
     self.application = application
     self.system_tray = system_tray
@@ -29,10 +28,10 @@ class ApplicationHostService():
   def _configure_application(self) -> None:
     """Configure our main Qt application with settings applied.
     """
-    self.application.setStyleSheet(Stylesheet.value())
+    self.application.setStyleSheet(qdarktheme.load_stylesheet())
     self.application.setWindowIcon(b64_to_qicon(Embedded.icon()))
 
-  async def start_async(self):
+  def start(self):
     """Starts our main application.
     """
     self._configure_application()
@@ -40,31 +39,24 @@ class ApplicationHostService():
     self.app_window_view.show()
     
     try:
-      self.executor_service.exec()
-      await self.stop_async()
+      self.application.exec()
+      self.stop()
     except Exception:
-      await self.on_exception()
+      self.on_exception()
 
-  async def stop_async(self):
+  def stop(self):
     """Stops our main application.
     """
-    self.executor_service.is_program_exiting = True
-    await self.executor_service._kill_willump()
-    self.graphical_worker_service.exit()
-    self.graphical_worker_service.isRunning = False
-    self.graphical_worker_service.wait()
-    print()
+    os._exit(0)
   
-  async def on_exception(self):
+  def on_exception(self):
     """Stops executor and gracefully prepare to exit program.
     """
-    await self.stop_async()
     msg = QtWidgets.QMessageBox()
     msg.setIcon(QtWidgets.QMessageBox.Critical)
     msg.setText("Error")
     msg.setInformativeText(traceback.format_exc())
     msg.setWindowTitle(":bee_sad:")
     msg.exec_()
-    os._exit(-1)
-      
+    self.stop()
 
