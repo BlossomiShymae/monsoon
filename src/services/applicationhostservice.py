@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-  from services import ExecutorService, GraphicalWorkerService
+  from services import ExecutorService
   from views import AppWindowView, SystemTray
 from constants import Embedded
 from utils import b64_to_qicon
