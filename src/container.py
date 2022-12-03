@@ -1,7 +1,8 @@
 from services import (
   ApplicationHostService, 
   WorkerService,
-  ApiService
+  ApiService,
+  SettingsContextService
 )
 from views import AboutWindowView, SystemTray, AppWindowView
 from viewmodels import AboutWindowViewModel, SystemTrayViewModel, AppWindowViewModel
@@ -15,6 +16,7 @@ class Container(containers.DeclarativeContainer):
   """
 
   # Services
+  settings_context_service = providers.ThreadSafeSingleton(SettingsContextService)
   api_service = providers.ThreadSafeSingleton(ApiService)
   application_host_service = providers.ThreadSafeSingleton(ApplicationHostService)
   worker_service = providers.ThreadSafeSingleton(WorkerService)
