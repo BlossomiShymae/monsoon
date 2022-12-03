@@ -15,6 +15,7 @@ class QtHelpers():
     elif stretch is QtStretches.VERTICAL:
       sp.setVerticalStretch(factor)
     return sp
+    
   @staticmethod
   def clear_qlayout(layout: QtWidgets.QLayout):
     while layout.count():
@@ -24,3 +25,4 @@ class QtHelpers():
           child_widget.setVisible(False)
           child_widget.setParent(None)
           child_widget.deleteLater()
+  
