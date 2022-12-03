@@ -17,7 +17,6 @@ lupa==1.14.1
 multidict==6.0.2
 packaging==21.3
 pefile==2022.5.30
-pip-autoremove==0.10.0
 pluggy==1.0.0
 psutil==5.9.2
 py==1.11.0
