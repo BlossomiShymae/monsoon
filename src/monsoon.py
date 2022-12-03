@@ -12,11 +12,10 @@ import logging
 @inject
 def main(
   application_host_service: ApplicationHostService = Provide[Container.application_host_service]):
-  loop = asyncio.get_event_loop()
   try:
-    loop.run_until_complete(application_host_service.start_async())
+    application_host_service.start()
   except KeyboardInterrupt:
-    loop.run_until_complete(application_host_service.stop_async())
+    application_host_service.stop()
 
 if __name__ == "__main__":
   logging.basicConfig(level=logging.DEBUG)

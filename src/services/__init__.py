@@ -1,3 +1,5 @@
 from services.executorservice import ExecutorService
 from services.applicationhostservice import ApplicationHostService
 from services.graphicalworkerservice import GraphicalWorkerService
+from services.workerservice import WorkerService, Workers
+from services.apiservice import ApiService

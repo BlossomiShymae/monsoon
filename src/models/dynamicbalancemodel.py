@@ -1,5 +1,5 @@
 from models import BalanceLever
-from typing import List
+from typing import List, Optional
 from dataclasses import dataclass
 
 @dataclass
@@ -9,6 +9,7 @@ class DynamicBalanceModel:
   """
   champion_name: str
   balance_levers: List[BalanceLever]
+  champion_icon: Optional[bytes] = None
 
   def _format_champion_name(self) -> str:
     return f"{self.champion_name}"
@@ -24,3 +25,13 @@ class DynamicBalanceModel:
       spacer = "\n" if i % 2 == 0 else " "
       label += f"{spacer}{balance_lever.format()}"
     return label
+
+  def format_balance_levers(self):
+    """Return an alphabetically sorted list of balance lever strings.
+
+    Returns:
+        List[str]
+    """ 
+    balance_lever_strings = [x.format() for x in self.balance_levers]
+    balance_lever_strings.sort()
+    return balance_lever_strings
