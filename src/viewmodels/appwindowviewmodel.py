@@ -20,9 +20,9 @@ class AppWindowViewModel(object):
     api_service: ApiService = Provide["api_service"]
   ):
     self.object_name = "appView"
-    self.window_title = Monsoon.TITLE.value
-    self.height = Monsoon.HEIGHT.value
-    self.width = Monsoon.WIDTH.value
+    self.window_title = Monsoon.TITLE
+    self.height = Monsoon.HEIGHT
+    self.width = Monsoon.WIDTH
     self.wordmark_pixmap = QtGui.QPixmap()
     self.wordmark_pixmap.loadFromData(ResourceHelper.get_resource_bytes("resources/images/wordmark.png"))
 

@@ -1,7 +1,6 @@
-from enum import Enum
 
 
-class Monsoon(Enum):
+class Monsoon():
   TITLE = "Monsoon"
   VERSION = "1.2.0"
   AUTHOR = "MissUwuieTime"
