@@ -1,6 +1,7 @@
 import pytest
 from apis import DataDragon, LolFandom
 
+
 class TestApis():
   class TestDataDragon():
     def test_api_returns_champion_data(self):
@@ -10,11 +11,6 @@ class TestApis():
       assert data['id'] == 'Sona'
   
   class TestLolFandom():
-    def test_api_has_processed_data(self):
-      champion_name = 'Sona'
-      api = LolFandom()
-      assert api.fetch_balance_by_champion_name(champion_name) != None
-    
     def test_api_has_processed_dynamic_data(self):
       champion_name = 'Sona'
       api = LolFandom()
