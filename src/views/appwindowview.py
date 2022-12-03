@@ -12,7 +12,7 @@ from utils import (
 from views import QImage, QChampionTemplate
 
 from dependency_injector.wiring import Provide, inject
-from PySide6 import QtWidgets, QtCore, QtGui
+from PySide6 import QtWidgets, QtGui
 
 
 class AppWindowView(QtWidgets.QMainWindow):

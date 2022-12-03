@@ -7,7 +7,6 @@ from models import ChampionSelectSessionModel
 
 from PySide6.QtCore import QThread, Signal, QObject
 from lcu_driver import Connector
-from lcu_driver.events.responses import WebsocketEventResponse
 from watchdog.observers import Observer
 from watchdog.events import (
   FileSystemEventHandler, 

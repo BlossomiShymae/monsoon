@@ -3,14 +3,13 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
   from services import WorkerService, ApiService
 
-from constants import Embedded, Monsoon
-from models import DynamicBalanceModel, ChampionSelectSessionModel
+from constants import Monsoon
+from models import ChampionSelectSessionModel
 from services import Workers
 from utils import EventHandler, ResourceHelper
 
 from PySide6 import QtCore, QtGui
 from dependency_injector.wiring import Provide, inject
-import logging
 
 
 class AppWindowViewModel(object):

@@ -3,7 +3,6 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
   from views import AboutWindowView
   from viewmodels import SystemTrayViewModel
-from constants import Embedded, Monsoon
 
 from PySide6 import QtWidgets
 from dependency_injector.wiring import Provide, inject

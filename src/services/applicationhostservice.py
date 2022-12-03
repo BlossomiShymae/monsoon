@@ -2,7 +2,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
   from views import AppWindowView, SystemTray
-from constants import Embedded
 from utils import ResourceHelper
 
 from dependency_injector.wiring import Provide, inject

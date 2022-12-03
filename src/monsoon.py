@@ -4,7 +4,6 @@ import services
 import views
 import viewmodels
 
-import asyncio
 from dependency_injector.wiring import Provide, inject
 import logging
 
