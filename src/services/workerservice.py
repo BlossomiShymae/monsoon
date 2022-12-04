@@ -39,9 +39,6 @@ class WorkerService:
         self.workers_dictionary[Workers.LCU_EVENT_PROCESSOR] = LcuEventProcessorWorker()
 
     def get(self, key: Workers) -> QThread:
-        print(key)
-        print(self.workers_dictionary.keys())
-        print(self.workers_dictionary.values())
         value = self.workers_dictionary.get(key)
         if value is None:
             raise Exception("Worker does not exist in worker service. Did you forget to include it? o.o")
