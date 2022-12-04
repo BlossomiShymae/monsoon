@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import List, Optional
 
-from src.models import BalanceLever
+from models import BalanceLever
 
 
 @dataclass

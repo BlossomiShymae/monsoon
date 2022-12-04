@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 from lupa import LuaRuntime
 
-from src.models import DynamicBalanceModel, BalanceLever
+from models import DynamicBalanceModel, BalanceLever
 
 
 class LolFandom:

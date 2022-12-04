@@ -3,9 +3,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from src.viewmodels import AboutWindowViewModel
-from src.utils import QtContainerFactory, QtContainerLayouts
-from src.views import QImage
+    from viewmodels import AboutWindowViewModel
+from utils import QtContainerFactory, QtContainerLayouts
+from views import QImage
 
 from PySide6 import QtWidgets, QtCore
 from dependency_injector.wiring import Provide, inject

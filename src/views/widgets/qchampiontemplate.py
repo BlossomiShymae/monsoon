@@ -2,13 +2,13 @@ from typing import List
 
 from PySide6 import QtWidgets, QtCore, QtGui
 
-from src.utils import (
+from utils import (
     QtContainerFactory,
     QtContainerLayouts,
     QtHelpers,
     QtStretches
 )
-from src.views import QImage
+from views import QImage
 
 
 class QChampionTemplate(QtWidgets.QWidget):

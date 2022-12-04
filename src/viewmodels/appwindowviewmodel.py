@@ -5,9 +5,9 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from src.services import WorkerService, ApiService
 
-from src.constants import Monsoon, Workers
-from src.models import ChampionSelectSessionModel
-from src.utils import EventHandler, ResourceHelper
+from constants import Monsoon, Workers
+from models import ChampionSelectSessionModel
+from utils import EventHandler, ResourceHelper
 
 from PySide6 import QtCore, QtGui
 from dependency_injector.wiring import Provide, inject

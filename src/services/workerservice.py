@@ -4,9 +4,9 @@ from typing import TYPE_CHECKING, Dict
 
 if TYPE_CHECKING:
     pass
-from src.utils import EventHandler
-from src.models import ChampionSelectSessionModel
-from src.constants import Workers
+from utils import EventHandler
+from models import ChampionSelectSessionModel
+from constants import Workers
 
 from PySide6.QtCore import QThread, Signal, QObject
 from lcu_driver import Connector

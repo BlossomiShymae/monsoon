@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     pass
 
-from src.apis import DataDragon, LolFandom
+from apis import DataDragon, LolFandom
 
 
 class ApiService:
