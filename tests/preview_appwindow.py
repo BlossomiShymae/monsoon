@@ -1,5 +1,6 @@
 import os
 import sys
+
 sys.path.append(os.path.abspath("./src/"))
 
 from src.apis import LolFandom, DataDragon
@@ -54,27 +55,27 @@ ahri_balance.champion_icon = dd_api.fetch_icon_by_champion_id(103)
 
 # Simulate app by passing data to the viewmodel
 viewmodel.available_champion_dynamic_balances = [
-  akali_balance,
-  qiyana_balance,
-  neeko_balance,
-  lillia_balance,
-  lux_balance,
-  ashe_balance,
-  gwen_balance,
-  zyra_balance,
-  xayah_balance,
-  ahri_balance
+    akali_balance,
+    qiyana_balance,
+    neeko_balance,
+    lillia_balance,
+    lux_balance,
+    ashe_balance,
+    gwen_balance,
+    zyra_balance,
+    xayah_balance,
+    ahri_balance
 ]
 viewmodel.team_champion_dynamic_balances = [
-  sona_balance,
-  seraphine_balance,
-  janna_balance,
-  soraka_balance,
-  nami_balance,
+    sona_balance,
+    seraphine_balance,
+    janna_balance,
+    soraka_balance,
+    nami_balance,
 ]
 
 view.show()
 try:
-  app.exec()
+    app.exec()
 except KeyboardInterrupt:
-  sys.exit(0)
+    sys.exit(0)
